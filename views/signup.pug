@@ -1,0 +1,65 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        link(rel="icon" href="data:,")
+        link(href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet")
+        link(rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous")
+        link(rel="stylesheet", href="/css/style.css")
+        title= title
+    body 
+        main.main 
+            .signupForm__container
+                form.form.formSignup 
+                    h2.formSignup__main-title Empieza a aprender con...
+                    .formSignup__group
+                        .formSignup__i
+                            i.fas.fa-user
+                        .formSignup--grid
+                            h5.formSignup__input--placeholder Nombre/s
+                            input#username.formSignup__input(type='text', required)
+                    .formSignup__group
+                        .formSignup__i
+                            i.fas.fa-users
+                        .formSignup--grid
+                            h5.formSignup__input--placeholder Apellido/s
+                            input#lastname.formSignup__input(type='text', required)
+                    .formSignup__group
+                        .formSignup__i
+                            i.fas.fa-envelope
+                        .formSignup--grid
+                            h5.formSignup__input--placeholder Correo Electronico
+                            input#email.formSignup__input(type='email', required)
+                    .formSignup__group
+                        .formSignup__i
+                            i.fas.fa-lock
+                        .formSignup--grid
+                            h5.formSignup__input--placeholder Contraseña
+                            input#password.formSignup__input(type='password', required, minlength='8')
+                    .formSignup__group
+                        .formSignup__i
+                            i.fas.fa-lock
+                        .formSignup--grid
+                            h5.formSignup__input--placeholder Confirmar Contraseña
+                            input#passwordConfirm.formSignup__input(type='password', required, minlength='8')
+                    //- .formSignup__group
+                    //-     input.graduate.formSignup__input(type='radio', required, value='Si', name='graduate')
+                    //-     label.graduate.formSignup__label(for='yes') Si
+                    //-     input.graduate.formSignup__input(type='radio', required, value='No', name="graduate")
+                    //-     label.graduate.formSignup__label(for='no') No
+                    //- .formSignup__group
+                    //-     input#gender--man.formSignup__input(type='radio', required, value='masculino', name='genero')
+                    //-     label.formSignup__label(for='gender--man') Masculino
+                    //-     input#gender--woman.formSignup__input(type='radio', required, value='femenino', name="genero")
+                    //-     label.formSignup__label(for='gender--woman') Femenino
+                    //-     input#gender--other.formSignup__input(type='radio', required, value='otro', name="genero")
+                    //-     label.formSignup__label(for='gender--other') Otro
+                        
+                    //- .formSignup__group
+                    //-     label(for='birthday') Fecha de Nacimiento 
+                    //-     input#birthday.formSignup__input(type='date', required, name='fechaNacimiento')
+                    button.btn.btn--signup Crear cuenta
+                    a.link.link--signup(href="/") Ya tengo cuenta
+        script(src='/js/bundle/bundle.js')

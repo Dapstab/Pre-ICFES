@@ -1,0 +1,1 @@
+module.exports = ['Biología', 'Ciencias Sociales', 'Competencias Humanas', 'Español', 'Física', 'Inglés', 'Matemáticas', 'Química'];

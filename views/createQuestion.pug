@@ -1,0 +1,37 @@
+extends base 
+
+mixin getOptions(opt)
+    .option
+        input.radio(type='radio' name='option' id=`checkbox-${opt}`)
+        textarea.options(name="options", id=`options-${opt}`) 
+
+block content 
+    form
+        fieldset.stepOne(name='part-1')
+            legend Parte 1 / 2
+            
+            label.label-subject(for='subject') Asignatura
+            select#subject.form__select(name="category")
+                each field in asignaturas
+                    option.option(value=`${field}`)=field
+            
+            label.label-topics(for='topics' list='topics') Temas
+            select#topics
+            ul.topics
+            label.label-subtopics(for='subtopics' list='subtopics') Subtemas
+            select#subtopics
+            ul.subtopics
+            label.label-difficulty(for='difficulty') Dificultad 
+            select#difficulty
+                each difficulty in [1,2,3,4,5]
+                    option(value=`${diffficulty}`)=difficulty
+            button.nextBtn(type='button') Siguiente
+        fieldset.stepTwo.hidden(name='part-2')
+            legend Parte 2 / 2
+            label(type='text') Pregunta
+            textarea.question(name="question")
+            each letter in ['A','B','C','D']
+                +getOptions(letter)
+            button.prevBtn(type='button') Atrás
+            button(type='button') Terminar
+

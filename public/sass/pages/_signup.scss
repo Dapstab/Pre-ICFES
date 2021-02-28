@@ -1,0 +1,151 @@
+.signupForm__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100vh;
+}
+
+.formSignup {
+  width: 40rem;
+  border-radius: 15px;
+  background: rgba(240, 235, 235, 0.4);
+  padding: 0 4em;
+
+  &__main-title {
+    // Ocupa todo el width del padre form (36rem)
+    font-size: 2rem;
+    text-transform: uppercase;
+    margin: 1.5rem 0;
+    color: $color-titles;
+  }
+
+  &__input--placeholder {
+    position: absolute; // Lo necesito para hacer la animación abajo con el focus
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $color-primary-light;
+    font-size: 1.8rem;
+    transition: 0.3s;
+  }
+
+  // SE REPITE EL CÓDIGO VA EN COMPONENETES
+  &__i {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & i {
+      color: $color-primary-light;
+      font-size: 1.6rem;
+    }
+  }
+
+  &__input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: none;
+    padding: 0.8rem 1.12rem;
+    font-size: 1.5rem;
+    color: $color-input-text;
+    font-family: inherit;
+  }
+}
+
+.formSignup__group {
+  display: grid;
+  grid-template-columns: 7% 93%;
+  margin: 2.5rem 0;
+  /* padding: 0.5rem 0; */
+  border-bottom: 2px solid $color-border-bottom;
+  position: relative; // Para los position absolute de after y before
+  border: 2px solid rgba($color-border-bottom, 0.4);
+  padding: 1em 0;
+  border-radius: 10px;
+
+  &.focus {
+    padding: 0.5em 0;
+  }
+
+  &::after,
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: -0.2rem; // Oculta el border-bottom
+    width: 50%; // Cada uno tiene el 50% de la media de su padre
+    height: 2px;
+    background-color: $color-secondary-btn;
+    transition: 0.3s;
+  }
+
+  &::after {
+    right: 50%; // Posicionamos este a la izquierda
+  }
+
+  &::before {
+    left: 50%; // posicionamos este a la derecha
+  }
+
+  &.focus::after,
+  &.focus::before {
+    width: 50%;
+  }
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &:last-child {
+    margin-bottom: 0.4rem;
+  }
+
+  & > div {
+    // los div´s group
+    position: relative; // Es necesario ya que vamos a hacer un position absolute obligatorio con respecto a estos div´s, que son los de place--holder
+    /* height: 2rem; */
+  }
+
+  &.focus .formSignup__i i {
+    color: $color-secondary-btn;
+    transition: 0.3s;
+  }
+
+  &.focus .formSignup--grid .formSignup__input--placeholder {
+    top: -1.5rem; // Ya defini el position absolute que es con respecto a .formLogin--grid
+    font-size: 1.5rem;
+  }
+}
+
+// REPETIDO DE LOGIN
+
+.btn--signup {
+  //   display: block;
+  width: 100%; // Por defecto los botones ocupan su contenido con esto ocupa todo el padre
+  height: 5rem;
+  border-radius: 10rem;
+  margin: 1.6rem 0;
+  font-size: 2rem;
+  outline: none;
+  border: none;
+  background-image: linear-gradient(
+    to right,
+    $color-primary-btn,
+    $color-secondary-btn,
+    $color-primary-btn
+  );
+  cursor: pointer;
+  color: $color-white;
+  font-family: inherit;
+  background-size: 200%;
+  transition: 0.5s;
+
+  &:hover {
+    background-position: right;
+  }
+}

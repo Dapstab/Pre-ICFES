@@ -1,0 +1,15 @@
+extends base 
+block content
+    button.btn__btn--add-course Añadir Curso
+    .container-form.modal.hidden
+        form#form__course
+            .form__group
+                label(for='name') Nombre
+                input#name(type='text' name='name' min='3' max='20')
+            .form__group
+                label(for='subject') Asignatura
+                input#subject(type='text')
+            button.btn.btn__createQuiz Crear Curso
+    //-.container-link.modal.hidden
+        p.linklink 
+    .overlay.hidden

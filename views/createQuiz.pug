@@ -1,0 +1,32 @@
+extends base 
+
+block content 
+    section.section__quiz.main-grid
+        h2.title__session Crear Quiz
+        form#form__quiz 
+            .form__group    
+                label(for='name') Nombre
+                input#name(type='text' name='name' min=3 max=20)
+            .form__group
+                label(for='subject') Asignatura 
+                select#subject.form__select(name='subject')
+                    option(value="" disabled selected hidden) Selecciona una asignatura
+                    each option in asignaturas
+                        option(value=`${option}`)=option
+
+            .form__group
+                label(for='duration') Tiempo
+                select#duration.form__select(name='duration')
+                    each duration in [15, 30, 45, 60, 90, 120]
+                        option.select__option-time(value= `${duration}`)= `${duration}`
+            
+            .form__group
+                label(for='duration') Fecha de Entrega
+                input#due-date(type='date')
+
+            .form__group
+                label(for='description') Descripción
+                textarea#description(type='text')
+                
+            button.btn.btn__createQuiz Crear Quiz
+        
