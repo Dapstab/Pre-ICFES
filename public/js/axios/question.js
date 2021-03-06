@@ -8,13 +8,12 @@ export class Question {
     asignatura,
     temas,
     subtemas,
-    dificultad,
-    formato
+    dificultad
   ) {
     try {
       const res = await axios({
         method: "POST",
-        url: "http://127.0.0.1:5000/api/v1/pregunta",
+        url: "http://127.0.0.1:3000/api/v1/pregunta",
         data: {
           pregunta,
           opciones,
@@ -22,8 +21,7 @@ export class Question {
           asignatura,
           temas,
           subtemas,
-          dificultad,
-          formato,
+          dificultad
         },
       });
       if (res.data.status === "success") {

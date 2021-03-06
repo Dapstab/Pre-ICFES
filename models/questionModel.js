@@ -10,21 +10,12 @@ const questionSchema = new mongoose.Schema({
     type: [String],
     required: [true, "Toda pregunta debe tener opciones de respuesta"],
   },
-  formato: {
-    type: String,
-    enum: {
-      values: ["Verdadero o Falso", "Seleccion Multiple", "Multiple Respuesta"],
-      message:
-        "Las preguntas son verdadero o falso, selección multiple, múltiple respuesta o abiertas",
-    },
-    required: [true, "La preguntas deben tener un formato"],
-  },
   dificultad: {
     type: Number,
     enum: [0, 1, 2, 3, 4, 5],
     required: [true, "Las preguntas deben tener una dificultad"],
   },
-  materia: {
+  asignatura: {
     type: String,
     enum: {
       values: [
@@ -43,30 +34,10 @@ const questionSchema = new mongoose.Schema({
   },
   temas: {
     type: String,
-    enum: {
-      values: [
-        "Cálculo Diferencial",
-        "Electromagnetismo",
-        "La Célula",
-        "Enlaces",
-        "Algoritmos",
-      ],
-      message: "El tema no se encuentra",
-    },
-    required: [true, "Las preguntas deben pertencer a un tema"],
+    required: [true, "Las preguntas deben pertencer a un tema"]
   },
   subtemas: {
     type: [String],
-    enum: {
-      values: [
-        "Límites",
-        "Marcos de Referencia",
-        "Mitocondrias",
-        "Iónico",
-        "Sorting",
-      ],
-      message: "El subtema no se encuentra",
-    },
     required: [true, "Las preguntas deben pertencer a un subtema"],
   },
   autor: {
@@ -79,7 +50,7 @@ const questionSchema = new mongoose.Schema({
     trim: true,
   },
   respuesta: {
-    type: [Number],
+    type: Number,
     required: [true, "Toda pregunta debe tener respuestas"],
   },
   referencias: {

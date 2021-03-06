@@ -8831,127 +8831,7 @@ function resize(textarea) {
     this.style.height = this.scrollHeight + 'px';
   }, false);
 }
-},{}],"forms/questionForm.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.QuestionForm = void 0;
-
-var _filterTopics = require("../utils/filterTopics");
-
-var _data = require("../utils/data");
-
-var _resize = require("../utils/resize");
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-var topics = document.querySelector('#topics');
-;
-var subtopics = document.querySelector('#subtopics');
-var subject = document.querySelector('#subject');
-var textareas = document.querySelectorAll('textarea');
-var topicList = document.querySelector('.topics');
-var subTopicList = document.querySelector('.subtopics');
-var counter = 0;
-
-var QuestionForm = /*#__PURE__*/function () {
-  function QuestionForm() {
-    _classCallCheck(this, QuestionForm);
-  }
-
-  _createClass(QuestionForm, null, [{
-    key: "closeTopic",
-    value: function closeTopic(name, tag) {
-      var data = document.createElement('li');
-      data.innerHTML = "<span class=\"close-".concat(counter, "\">X</span> ").concat(name);
-      data.classList.add("".concat(tag, "-").concat(counter));
-      tag === 'topic' ? topicList.appendChild(data) : subTopicList.appendChild(data);
-      data = document.querySelector(".".concat(tag, "-").concat(counter));
-      var close = document.querySelector(".close-".concat(counter));
-      close.addEventListener('click', function () {
-        data.remove();
-      });
-      counter++;
-    }
-  }, {
-    key: "removeData",
-    value: function removeData() {
-      subject.addEventListener('change', function () {
-        _filterTopics.Filter.removeOptions(topics);
-
-        _filterTopics.Filter.removeOptions(subtopics);
-      });
-    }
-  }, {
-    key: "showTopics",
-    value: function showTopics() {
-      subject.addEventListener('change', function (e) {
-        _filterTopics.Filter.removeOptions(topics);
-
-        _filterTopics.Filter.addOptions(topics, _data.temas[e.target.value]);
-      });
-    }
-  }, {
-    key: "showSubTopics",
-    value: function showSubTopics() {
-      var _this = this;
-
-      topics.addEventListener('change', function (e) {
-        _this.closeTopic(e.target.value, 'topic'); //this.addSelect(topics);
-
-
-        _filterTopics.Filter.removeOptions(subtopics);
-
-        _filterTopics.Filter.addOptions(subtopics, _data.subtemas[e.target.value]);
-      });
-      subtopics.addEventListener('change', function (e) {
-        _this.closeTopic(e.target.value, 'subtopic'); //this.addSelect(subtopics);
-
-      });
-    }
-  }, {
-    key: "addSelect",
-    value: function addSelect(domElement) {
-      var select = document.createElement('select');
-      domElement.insertAdjacentElement('afterend', select);
-    }
-  }]);
-
-  return QuestionForm;
-}();
-
-exports.QuestionForm = QuestionForm;
-
-_defineProperty(QuestionForm, "showPage", function () {
-  textareas.forEach(function (textarea) {
-    return (0, _resize.resize)(textarea);
-  });
-  var stepIndex = 0;
-  var steps = document.querySelectorAll('fieldset');
-  var nextBtns = document.querySelectorAll('.nextBtn');
-  var prevBtns = document.querySelectorAll('.prevBtn');
-  currentPage(nextBtns, '+');
-  currentPage(prevBtns, '-');
-
-  function currentPage(domArray, inc) {
-    domArray.forEach(function (button) {
-      return button.addEventListener('click', function () {
-        steps[stepIndex].classList.add('hidden');
-        inc === '+' ? stepIndex++ : stepIndex--;
-        steps[stepIndex].classList.remove('hidden');
-      });
-    });
-  }
-});
-},{"../utils/filterTopics":"utils/filterTopics.js","../utils/data":"utils/data.js","../utils/resize":"utils/resize.js"}],"axios/quiz.js":[function(require,module,exports) {
+},{}],"axios/quiz.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9090,7 +8970,215 @@ _defineProperty(Quiz, "updateUsersQuiz", /*#__PURE__*/function () {
     return _ref3.apply(this, arguments);
   };
 }());
-},{"axios":"../../node_modules/axios/index.js"}],"forms/quizForm.js":[function(require,module,exports) {
+},{"axios":"../../node_modules/axios/index.js"}],"axios/question.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Question = void 0;
+
+var _axios = _interopRequireDefault(require("axios"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Question = /*#__PURE__*/function () {
+  function Question() {
+    _classCallCheck(this, Question);
+  }
+
+  _createClass(Question, null, [{
+    key: "createQuestion",
+    value: function () {
+      var _createQuestion = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(pregunta, opciones, respuesta, asignatura, temas, subtemas, dificultad) {
+        var res;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                _context.next = 3;
+                return (0, _axios.default)({
+                  method: "POST",
+                  url: "http://127.0.0.1:3000/api/v1/pregunta",
+                  data: {
+                    pregunta: pregunta,
+                    opciones: opciones,
+                    respuesta: respuesta,
+                    asignatura: asignatura,
+                    temas: temas,
+                    subtemas: subtemas,
+                    dificultad: dificultad
+                  }
+                });
+
+              case 3:
+                res = _context.sent;
+
+                if (res.data.status === "success") {
+                  window.setTimeout(function () {
+                    location.assign("/perfil");
+                  }, 1500);
+                }
+
+                _context.next = 10;
+                break;
+
+              case 7:
+                _context.prev = 7;
+                _context.t0 = _context["catch"](0);
+                console.log(_context.t0);
+
+              case 10:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[0, 7]]);
+      }));
+
+      function createQuestion(_x, _x2, _x3, _x4, _x5, _x6, _x7) {
+        return _createQuestion.apply(this, arguments);
+      }
+
+      return createQuestion;
+    }()
+  }]);
+
+  return Question;
+}();
+
+exports.Question = Question;
+},{"axios":"../../node_modules/axios/index.js"}],"forms/questionForm.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.QuestionForm = void 0;
+
+var _filterTopics = require("../utils/filterTopics");
+
+var _data = require("../utils/data");
+
+var _resize = require("../utils/resize");
+
+var _quiz = require("../axios/quiz");
+
+var _question = require("../axios/question");
+
+var QuestionForm = function QuestionForm() {
+  var stepIndex = 0;
+  var counter = 0;
+  var topics = document.querySelector('#topics');
+  var subtopics = document.querySelector('#subtopics');
+  var subject = document.querySelector('#subject');
+  var textareas = document.querySelectorAll('textarea');
+  var topicList = document.querySelector('.topics');
+  var subTopicList = document.querySelector('.subtopics');
+  var questionForm = document.getElementById('form__question');
+  textareas.forEach(function (textarea) {
+    return (0, _resize.resize)(textarea);
+  });
+  var steps = document.querySelectorAll('fieldset');
+  var nextBtns = document.querySelectorAll('.nextBtn');
+  var prevBtns = document.querySelectorAll('.prevBtn');
+  currentPage(nextBtns, '+');
+  currentPage(prevBtns, '-');
+  removeData();
+  showTopics();
+  showSubTopics();
+  closeTopic();
+  sendQuestionData();
+
+  function currentPage(domArray, inc) {
+    domArray.forEach(function (button) {
+      return button.addEventListener('click', function () {
+        steps[stepIndex].classList.add('hidden');
+        inc === '+' ? stepIndex++ : stepIndex--;
+        steps[stepIndex].classList.remove('hidden');
+      });
+    });
+  }
+
+  function closeTopic(name, tag) {
+    var data = document.createElement('li');
+    data.innerHTML = "<span class=\"close-".concat(counter, "\">X</span> ").concat(name);
+    data.classList.add("".concat(tag, "-").concat(counter));
+    tag === 'topic' ? topicList.appendChild(data) : subTopicList.appendChild(data);
+    data = document.querySelector(".".concat(tag, "-").concat(counter));
+    var close = document.querySelector(".close-".concat(counter));
+    close.addEventListener('click', function () {
+      data.remove();
+    });
+    counter++;
+  }
+
+  function removeData() {
+    subject.addEventListener('change', function () {
+      _filterTopics.Filter.removeOptions(topics);
+
+      _filterTopics.Filter.removeOptions(subtopics);
+    });
+  }
+
+  function showTopics() {
+    subject.addEventListener('change', function (e) {
+      _filterTopics.Filter.removeOptions(topics);
+
+      _filterTopics.Filter.addOptions(topics, _data.temas[e.target.value]);
+    });
+  }
+
+  function showSubTopics() {
+    topics.addEventListener('change', function (e) {
+      closeTopic(e.target.value, 'topic');
+
+      _filterTopics.Filter.removeOptions(subtopics);
+
+      _filterTopics.Filter.addOptions(subtopics, _data.subtemas[e.target.value]);
+    });
+    subtopics.addEventListener('change', function (e) {
+      closeTopic(e.target.value, 'subtopic');
+    });
+  }
+
+  function sendQuestionData() {
+    questionForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var asignatura = document.getElementById('subject').value;
+      var temas = document.getElementById('topics').value;
+      var subtemas = document.getElementById('subtopics').value;
+      var dificultad = document.getElementById('difficulty').value;
+      var pregunta = document.getElementById('question').value;
+      var opciones = [];
+      document.querySelectorAll('.options').forEach(function (el) {
+        return opciones.push(el.value);
+      });
+      var respuesta;
+      document.querySelectorAll('.answers').forEach(function (ele) {
+        if (ele.checked) {
+          respuesta = ele.value;
+        }
+      });
+
+      _question.Question.createQuestion(pregunta, opciones, respuesta, asignatura, temas, subtemas, dificultad);
+    });
+  }
+};
+
+exports.QuestionForm = QuestionForm;
+},{"../utils/filterTopics":"utils/filterTopics.js","../utils/data":"utils/data.js","../utils/resize":"utils/resize.js","../axios/quiz":"axios/quiz.js","../axios/question":"axios/question.js"}],"forms/quizForm.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36219,30 +36307,36 @@ module.exports = crt
 
 },{"bn.js":"../../node_modules/bn.js/lib/bn.js","randombytes":"../../node_modules/randombytes/browser.js","buffer":"../../node_modules/buffer/index.js"}],"../../node_modules/elliptic/package.json":[function(require,module,exports) {
 module.exports = {
-  "_from": "elliptic@^6.5.3",
+  "_args": [
+    [
+      "elliptic@6.5.4",
+      "C:\\Users\\gordo\\Desktop\\Aguilera 2.0\\Pre-ICFES"
+    ]
+  ],
+  "_development": true,
+  "_from": "elliptic@6.5.4",
   "_id": "elliptic@6.5.4",
   "_inBundle": false,
   "_integrity": "sha512-iLhC6ULemrljPZb+QutR5TQGB+pdW6KGD5RSegS+8sorOZT+rdQFbsQFJgvN3eRqNALqJer4oQ16YvJHlU8hzQ==",
   "_location": "/elliptic",
   "_phantomChildren": {},
   "_requested": {
-    "type": "range",
+    "type": "version",
     "registry": true,
-    "raw": "elliptic@^6.5.3",
+    "raw": "elliptic@6.5.4",
     "name": "elliptic",
     "escapedName": "elliptic",
-    "rawSpec": "^6.5.3",
+    "rawSpec": "6.5.4",
     "saveSpec": null,
-    "fetchSpec": "^6.5.3"
+    "fetchSpec": "6.5.4"
   },
   "_requiredBy": [
     "/browserify-sign",
     "/create-ecdh"
   ],
   "_resolved": "https://registry.npmjs.org/elliptic/-/elliptic-6.5.4.tgz",
-  "_shasum": "da37cebd31e79a1367e941b592ed1fbebd58abbb",
-  "_spec": "elliptic@^6.5.3",
-  "_where": "E:\\Desktop\\Icfes\\node_modules\\browserify-sign",
+  "_spec": "6.5.4",
+  "_where": "C:\\Users\\gordo\\Desktop\\Aguilera 2.0\\Pre-ICFES",
   "author": {
     "name": "Fedor Indutny",
     "email": "fedor@indutny.com"
@@ -36250,7 +36344,6 @@ module.exports = {
   "bugs": {
     "url": "https://github.com/indutny/elliptic/issues"
   },
-  "bundleDependencies": false,
   "dependencies": {
     "bn.js": "^4.11.9",
     "brorand": "^1.1.0",
@@ -36260,7 +36353,6 @@ module.exports = {
     "minimalistic-assert": "^1.0.1",
     "minimalistic-crypto-utils": "^1.0.1"
   },
-  "deprecated": false,
   "description": "EC cryptography",
   "devDependencies": {
     "brfs": "^2.0.2",
@@ -59115,13 +59207,7 @@ _signup.SignupDOM.animationInput(); //Dashborad
 _dashborad.DashboardDOM.setActiveNavs();
 
 if (document.URL === "http://127.0.0.1:3000/questions/create") {
-  _questionForm.QuestionForm.showPage();
-
-  _questionForm.QuestionForm.removeData();
-
-  _questionForm.QuestionForm.showTopics();
-
-  _questionForm.QuestionForm.showSubTopics();
+  (0, _questionForm.QuestionForm)();
 }
 
 if (document.URL === "http://127.0.0.1:3000/quiz") {
@@ -59163,7 +59249,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52261" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54974" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

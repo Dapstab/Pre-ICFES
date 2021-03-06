@@ -1,4 +1,3 @@
-extends base 
 
 block content 
     section.section__quiz.main-grid
@@ -15,13 +14,13 @@ block content
                         option(value=`${option}`)=option
 
             .form__group
-                label(for='duration') Tiempo
-                select#duration.form__select(name='duration')
-                    each duration in [15, 30, 45, 60, 90, 120]
-                        option.select__option-time(value= `${duration}`)= `${duration}`
+                label(for='time') Tiempo
+                select#time.form__select(name='duration')
+                    each time in [15, 30, 45, 60, 90, 120]
+                        option.select__option-time(value= `${time}`)= `${time}`
             
             .form__group
-                label(for='duration') Fecha de Entrega
+                label(for='due-date') Fecha de Entrega
                 input#due-date(type='date')
 
             .form__group
@@ -30,3 +29,4 @@ block content
                 
             button.btn.btn__createQuiz Crear Quiz
         
+        script(src='/js/bundle/bundle.js')

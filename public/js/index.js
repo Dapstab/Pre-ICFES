@@ -22,10 +22,7 @@ SignupDOM.animationInput();
 DashboardDOM.setActiveNavs();
 
 if (document.URL === "http://127.0.0.1:3000/questions/create") {
-  QuestionForm.showPage();
-  QuestionForm.removeData();
-  QuestionForm.showTopics();
-  QuestionForm.showSubTopics();
+  QuestionForm();
 }
 
 if (document.URL === "http://127.0.0.1:3000/quiz") {
