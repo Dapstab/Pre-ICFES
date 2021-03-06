@@ -8,10 +8,14 @@
 @import "base/utilities";
 
 @import "components/buttons";
+@import "components/modal";
 
 @import "layout/header";
+@import "layout/profile";
 
 @import "pages/home";
-@import "pages/questionForm";
 @import "pages/signup";
-@import "components/modal";
+@import "pages/baseDashboard";
+@import "pages/questionForm";
+
+@import "abstracts/querys";

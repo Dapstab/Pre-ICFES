@@ -4,9 +4,13 @@ const User = require("../models/userModel");
 const asignaturas = require("../utils/data");
 module.exports = class ViewsController {
   static getHomePage = catchAsync(async (req, res, next) => {
-    res.status(200).render("homePage", {
-      title: "Pagina de Inicio",
-    });
+    if (req.user) {
+      res.redirect('/tablero');
+    } else {
+      res.status(200).render("homePage", {
+        title: "Pagina de Inicio",
+      });
+    }
   });
 
   static getSignupForm = (req, res) => {
@@ -18,7 +22,7 @@ module.exports = class ViewsController {
   static createQuiz = catchAsync(async (req, res, next) => {
     res.status(200).render("createQuiz", {
       title: "Crear Quiz",
-      asignaturas
+      asignaturas,
     });
   });
 
@@ -26,14 +30,14 @@ module.exports = class ViewsController {
     const quiz = await Quiz.findById(req.params.quizId);
     res.status(200).render("quiz", {
       title: "Quices",
-      quiz
+      quiz,
     });
   });
 
   static getQuestionForm = (req, res) => {
     res.status(200).render("createQuestion", {
       title: "Crea tus preguntas",
-      asignaturas
+      asignaturas,
     });
   };
 
@@ -49,20 +53,32 @@ module.exports = class ViewsController {
     const user = await User.findById(req.user.id);
     console.log(user);
     res.status(200).render("editQuiz", {
-      title: 'Tablero de quiz',
-      quizzes: user.quices
+      title: "Tablero de quiz",
+      quizzes: user.quices,
     });
   });
 
   static createCourse = (req, res, next) => {
     res.status(200).render("createCourse", {
-      title: 'Crear Curso'
+      title: "Crear Curso",
     });
   };
 
-  static joinCourse =  (req, res, next) => {
+  /* static joinCourse =  (req, res, next) => {
     res.status(200).render("tablero", {
       title: 'Tablero'
+    });
+  }; */
+
+  static getDashboard = (req, res, next) => {
+    res.status(200).render("dashboard", {
+      title: "Tablero",
+    });
+  };
+
+  static getAccount = (req, res, next) => {
+    res.status(200).render("account", {
+      title: "Perfil",
     });
   };
 };

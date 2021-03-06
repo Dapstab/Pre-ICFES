@@ -1,18 +1,54 @@
-extends baseProfile 
+extends dashboard
 
-block profileContent 
-    .login-form
-        h2.login-form__h2 
-        form.form#signup-form
-            .form__pair
-                label.form__label(for='username') Nombre
-                input#username.form__input(type='username', placeholder='GordouWarrior', required)
-            .form__pair
-                label.form__label(for='email') Correo electrónico
-                input#email.form__input(type='email', placeholder='you@example.com', required)
-            .form__pair.form__photo-upload
-                img.form__user-photo(src=`#`, alt='User photo')
-                input#photo.form__upload(type='file', accept='image/*', name='photo')
-                label(for='photo') Seleccionar un nuevo avatar
-            .form__pair
-                button.btn.btn--green Guardar configuraciones
+block content 
+    main.main
+        .user-view
+            .user-view__content
+                .user-view__form-container
+                    h2.heading-secondary Tus configuraciones de perfil
+
+                    form.form.form-user-data
+                            .formProfile__group
+                                label.formProfile__label(for='name') Nombre
+                                input#name.formProfile__input(type='text', value=`${user.nombre}`, required, name='name')
+                            .formProfile__group
+                                label.formProfile__label(for='email') Email address
+                                input#email.formProfile__input(type='email', value=`${user.correo}`, required, name='email')
+                            .formProfile__group
+                                label.formProfile__label(for="school") Colegio
+                                select#school.formProfile__select(name='colegio') 
+                                    option(value="" disabled selected hidden) Selecciona tu colegio
+                                    option(value="Verdadero o Falso") 21 Angeles
+                                    option(value="Seleccion Multiple") Antonio Nariño
+                                    option(value="Multiple Respuesta") Otro colegio
+                            .formProfile__group 
+                                label.formProfile__label(for="gender") Género
+                                label(for="") 
+                                input#gender.formProfile__input(type="radio" name="gender")
+                                input#gender.formProfile__input(type="radio" name="gender")
+                                input#gender.formProfile__input(type="radio" name="gender")
+                            .formProfile__group.formProfile__photo-upload
+                                img.formProfile__user-photo(src="#", alt='User photo')
+                                input#photo.formProfile__upload(type='file', accept='image/*', name='photo')
+                                label(for='photo') Editar foto
+                            .formProfile__group
+                                button.btn.btn--edit-user Guardar cambios
+                    .line &nbsp;
+                    .user-view__form-container
+                        h2.heading-secondary Editar contraseña
+                        form.form.form-user-password
+                            .formProfile__group
+                                label.formProfile__label(for='password-current') Contraseña actual
+                                input#password-current.formProfile__input(type='password', placeholder='••••••••', required, minlength='8')
+                            .formProfile__group
+                                label.formProfile__label(for='password') Nueva contraseña
+                                input#password.formProfile__input(type='password', placeholder='••••••••', required, minlength='8')
+                            .formProfile__group
+                                label.formProfile__label(for='password-confirm') Confirmar contraseña
+                                input#password-confirm.formProfile__input(type='password', placeholder='••••••••', required, minlength='8')
+                            .formProfile__group.right
+                                button.btn.btn--small.btn--green.btn--save-password Guardar contraseña
+
+
+    
+    

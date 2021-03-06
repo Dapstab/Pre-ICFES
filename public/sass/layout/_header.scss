@@ -1,0 +1,68 @@
+.header {
+  background: #fff;
+  display: flex; // Se le hace display flex a tres cosas: h2, search-wrapper, user-wrapper
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); // Un uso bacano de las sombras para separar las secciones.
+  position: fixed; /* Cuando colocamos esto es como si hubieramos colodao un position absolute, quitamos todas las dimensiones de width */
+  left: 345px; /* Posicionamos el header justo cuando tenerminda el sidebar */
+  width: calc(
+    100% - 345px
+  ); // 100% que es todo el width del viewPort menos los 34.5rem del sidebar nos da el width del header. Es necesario especificarlo debido a que colocamos position: fixed; luego las medidas se "pierden".
+  top: 0;
+  z-index: 100;
+  transition: left 300ms; /* Estamos diciendo que la transición se da en la propiedad left */
+
+  & h2 {
+    font-size: 1.6rem;
+    color: $color-gray-titles;
+  }
+
+  & label i {
+    font-size: 2.72rem;
+    padding-right: 1.6rem;
+  }
+}
+
+.search-wrapper {
+  border: 1px solid $color-white-gray;
+  border-radius: 30px;
+  height: 50px;
+  display: flex; // Por si solo hace que el input ocupe todo el espacio del padre (los flex-items poseen wrap por defecto).Si le dejo solo esta propiedad es como si se le quitaran todas las propiedades anteriores
+  align-items: center; // Solo aparecen cuando aplico esta propiedad
+  overflow-x: hidden; // Si lo quitamos podemos ver que la caja del input deja unos espacios correspondientes a las 4 esquinas, ya que este es una caja transparente por encima de search-wrapper, luego esta propiedad nos ayuda a quitar esos espacios sobrantes.
+
+  & i {
+    display: inline-block; /* Utilizo esta propiedad en los span para desbloquear las dimensiones recordemos que en los elementos inline no puedo usar margin ni padding etc. */
+    padding: 0rem 1rem; /* Separamos la lupa del input agrandando todo el contenedr (search-wrapper) con padding, no queremos dañar el contenedor con margin */
+    font-size: 1.5rem;
+  }
+
+  & input {
+    height: 100%;
+    padding: 0.8rem;
+    border: none;
+    outline: none;
+    font-size: 1.6rem;
+  }
+}
+
+.user-wrapper {
+  display: flex;
+  align-items: center;
+
+  & img {
+    border-radius: 50%;
+    margin-right: 1.6rem;
+  }
+
+  & h4 {
+    font-size: 1.6rem;
+  }
+
+  & small {
+    display: inline-block;
+    color: $color-text;
+    font-size: 1.6rem;
+  }
+}

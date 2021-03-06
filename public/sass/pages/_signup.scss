@@ -62,16 +62,16 @@
   display: grid;
   grid-template-columns: 7% 93%;
   margin: 2.5rem 0;
-  /* padding: 0.5rem 0; */
+  padding: 0.5rem 0;
   border-bottom: 2px solid $color-border-bottom;
   position: relative; // Para los position absolute de after y before
   border: 2px solid rgba($color-border-bottom, 0.4);
   padding: 1em 0;
   border-radius: 10px;
 
-  &.focus {
-    padding: 0.5em 0;
-  }
+  // &.focus {
+  //   padding: 0.5em 0;
+  // }
 
   &::after,
   &::before {
@@ -108,7 +108,7 @@
   & > div {
     // los div´s group
     position: relative; // Es necesario ya que vamos a hacer un position absolute obligatorio con respecto a estos div´s, que son los de place--holder
-    /* height: 2rem; */
+    // height: 2rem;
   }
 
   &.focus .formSignup__i i {

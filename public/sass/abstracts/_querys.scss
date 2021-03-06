@@ -1,0 +1,126 @@
+@media only screen and (max-width: 1200px) {
+  /* Ya no se va a tener la propiedad #nav-toggle, porque va a permanecer "cerrado" */
+  .sidebar {
+    width: 70px; /* Por debajo de los 1200px el sidebar se pone como si estuviara cerrado el sidebar en las pantallas grandes */
+
+    & .sidebar__brand,
+    & li {
+      padding-left: 1.6rem;
+      text-align: center;
+    }
+
+    & li a {
+      padding-left: 0rem;
+    }
+
+    & .sidebar__brand h2 span,
+    & li a span {
+      display: none;
+    }
+  }
+
+  .main-content {
+    margin-left: 70px;
+
+    & header {
+      width: calc(100% - 70px);
+      left: 70px;
+    }
+  }
+}
+
+@media only screen and (max-width: 960px) {
+  .cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .recent-grid {
+    grid-template-columns: 60% 40%;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .recent-grid {
+    grid-template-columns: 100%;
+  }
+
+  .search-wrapper {
+    display: none;
+  }
+
+  .sidebar {
+    left: 100% !important; /* Ocultar del todo el sidebar */
+  }
+
+  .header {
+    width: 100% !important;
+    left: 0 !important;
+
+    & h2 {
+      display: flex;
+      align-items: center;
+      font-size: 2.2rem;
+
+      & label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: $color-primary-btn;
+        padding-right: 0rem;
+        margin-right: 1.6rem;
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        color: #fff;
+      }
+
+      & i {
+        padding-right: 0rem; /* Solo para centrar las barras */
+      }
+    }
+  }
+
+  .main-content {
+    width: 100%;
+    margin-left: 0rem;
+  }
+
+  #nav-toggle {
+    &:checked + .sidebar {
+      left: 0 !important;
+      z-index: 100;
+      width: 345px;
+    }
+
+    /* SIDEBAR HOVER */
+
+    &:checked + .sidebar .sidebar__brand,
+    &:checked + .sidebar li {
+      padding-left: 3.2rem;
+      text-align: left;
+    }
+
+    &:checked + .sidebar li a {
+      padding-left: 1.6rem;
+    }
+
+    &:checked + .sidebar .sidebar__brand h2 span,
+    &:checked + .sidebar li a span {
+      display: inline; /* Queremos que al hacer hover sobre el sidebar aparezcan de nuevo las letras que ocultamos */
+    }
+
+    &:checked ~ .main-content {
+      margin-left: 0rem !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 560px) {
+  .cards {
+    grid-template-columns: 100%;
+  }
+}

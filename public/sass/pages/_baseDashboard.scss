@@ -1,0 +1,109 @@
+.sidebar {
+  width: 345px;
+  position: fixed;
+  left: 0; // Ocultamos el header gracias a esta propiedad y el background-color
+  top: 0;
+  height: 100%; // Hace que el position fixed actue como un position absolute
+  background-image: linear-gradient(
+    to bottom,
+    $color-primary-btn,
+    $color-secondary-btn,
+    $color-primary-btn
+  );
+  z-index: 100;
+  transition: width 300ms;
+}
+
+.sidebar__brand {
+  height: 90px;
+  padding: 1.6rem 0rem 1.6rem 3.2rem;
+  color: $color-white;
+  font-size: 1.6rem;
+
+  & i {
+    display: inline-block; //Para el span
+    padding-right: 1.6rem;
+  }
+}
+
+.sidebar__menu {
+  margin-top: 1.6rem;
+  & li {
+    width: 100%;
+    margin-bottom: 2.72rem; // No puedo hacer margin laterales porque puse el width al 100% del padre que es sidebar__menu
+    padding-left: 1.6rem; // 1rem Es el que permite que los active no toquen el borde izquierdo del sidebar__menu
+  }
+
+  // & span {
+  //   margin-left: 1rem; // Para compensar que con el li no puedo hacer margin-left o right
+  // }
+
+  & a {
+    display: block;
+    color: $color-white;
+    font-size: 1.7rem; // 1.1rem
+    padding-left: 1.6rem; // Corre 1.6rem con respecto a la izquierda del padre que es li
+    transform: scale(1);
+    transition: 0.2s;
+  }
+
+  & a i {
+    // Simplemente agregamos esto porque es el link activo en el momento
+    font-size: 2.4rem; //1.5rem
+    padding-right: 1.6rem;
+  }
+
+  & a.active {
+    background: $color-white;
+    padding-top: 1.6rem;
+    padding-bottom: 1.6rem;
+    color: $color-link-hover;
+    border-radius: 30px 0px 0px 30px;
+  }
+
+  & a:hover {
+    transform: scale(1.05);
+  }
+}
+
+#nav-toggle {
+  display: none;
+
+  &:checked + .sidebar {
+    width: 70px;
+  }
+
+  &:checked + .sidebar .sidebar__brand,
+  &:checked + .sidebar li {
+    padding-left: 1.6rem;
+    text-align: center;
+  }
+
+  &:checked + .sidebar li a {
+    padding-left: 0rem;
+  }
+
+  &:checked + .sidebar .sidebar__brand h2 span, 
+  // Queremos que se oculten las letras
+  &:checked + .sidebar li a span {
+    display: none;
+  }
+
+  &:checked ~ .main-content {
+    // Selecciona todos los hermanos de #nav-toggle, a diferencia de + que selecciona solo a el hermano mas cercano
+    margin-left: 70px;
+  }
+
+  &:checked ~ .main-content header {
+    // Para acomodar el width del header, dependiendo si nav-toogle se oprimio o no
+    width: calc(100% - 70px);
+    left: 70px;
+    //Solo corre el header el width debe calcularse dinamicamente con la propiedad de arriba
+  }
+}
+
+.main-content {
+  transition: margin-left 300ms;
+  // Se combina con la propieda de arriba #nav-toggle:checked ~ .main-content para lograr un efecto mas suave
+  margin-left: 34.5rem;
+}

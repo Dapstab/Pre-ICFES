@@ -1,8 +1,27 @@
 import { Login } from "../axios/login";
 
 const signupForm = document.querySelector(".formSignup");
+const signupInputs = document.querySelectorAll(".formSignup__input");
 
 export class SignupDOM {
+  static animationInput = function () {
+    if (signupInputs) {
+      signupInputs.forEach((input) => {
+        input.addEventListener("focus", function() {
+          let parent = this.parentNode.parentNode;
+          parent.classList.add("focus");
+        });
+
+        input.addEventListener("blur", function() {
+          let parent = this.parentNode.parentNode;
+          if (this.value === "") {
+            parent.classList.remove("focus");
+          }
+        });
+      });
+    }
+  };
+
   static signup = function () {
     if (signupForm) {
       signupForm.addEventListener("submit", function (e) {

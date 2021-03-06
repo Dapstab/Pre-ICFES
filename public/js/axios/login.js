@@ -29,7 +29,11 @@ export class Login {
         url: "http://127.0.0.1:3000/api/v1/usuarios/cerrarSesion",
       });
 
-      if (res.data.status === "success") location.reload();
+      if (res.data.status === "success") {
+        window.setTimeout(() => {
+          location.assign("/");
+        }, 1500);
+      }
     } catch (err) {
       console.log(err);
     }

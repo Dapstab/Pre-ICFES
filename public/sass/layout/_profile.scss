@@ -1,0 +1,103 @@
+.main {
+  margin-top: 85px;
+  // Como le colocamos al header position fixed, entonces el main se monto por encima del header, lo corremos hacia abajo 90px
+  padding: 2rem 1.5rem;
+  background-color: #f1f5f9;
+  min-height: calc(100vh - 90px);
+}
+
+.line {
+  margin: 4rem 0;
+  width: 100%;
+  height: 1px;
+  background-color: #e0e0e0;
+}
+
+.heading-secondary {
+  background-image: linear-gradient(to right, #7dd56f, #28b487);
+  -webkit-background-clip: text;
+  font-size: 2.25rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: transparent;
+  letter-spacing: 0.1rem;
+  line-height: 1.3;
+  display: inline-block;
+  margin-bottom: 2rem;
+}
+
+.user-view {
+  display: grid;
+  grid-template-columns: minmax(1em, 1fr) minmax(0px, 500px) minmax(1em, 1fr);
+}
+
+.user-view__content {
+  grid-column: 2 / -2;
+}
+
+.formProfile__user-photo {
+  height: 7.5rem;
+  width: 7.5rem;
+  border-radius: 50%;
+  margin-right: 2rem;
+}
+
+.formProfile__label {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-left: 0;
+}
+
+.formProfile__input {
+  margin: 1rem 0;
+  width: 100%;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  padding: 1.2rem 1.5rem;
+  font-size: 1.6rem;
+}
+
+.formProfile__upload {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.formProfile__upload:focus + label {
+  outline: 3px solid #55c57a;
+  outline-offset: 3px;
+}
+
+.formProfile__upload + label {
+  color: #55c57a;
+  display: inline-block;
+  text-decoration: none;
+  padding: 3px;
+  transition: all 0.2s;
+  cursor: pointer;
+  font-size: 1.6rem;
+}
+
+.formProfile__upload + label:hover {
+  background-color: #55c57a;
+  color: #fff;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.btn--edit-user {
+  border: none;
+  outline: none;
+}
+
+.formProfile__select {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  font-size: 1.6rem;
+  padding: 0.1em 1em;
+  // appearance: none;
+  border: 0;
+}
