@@ -2,6 +2,8 @@ const APIFeatures = require("../utils/apiFeatures");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 
+let questionsQuices = [];
+
 module.exports = class Factory {
   static deleteOne = function (Model) {
     return catchAsync(async (req, res, next) => {
@@ -38,6 +40,7 @@ module.exports = class Factory {
 
   static createOne = function (Model) {
     return catchAsync(async (req, res, next) => {
+      questionsQuices.push(req.body);
       const newDoc = await Model.create(req.body);
       res.status(201).json({
         status: "success",
@@ -83,4 +86,10 @@ module.exports = class Factory {
       });
     });
   };
+
+  static getQuizQuestions = () => {
+    return questionsQuices;
+  };
 };
+
+console.log(questionsQuices);

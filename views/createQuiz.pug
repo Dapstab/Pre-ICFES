@@ -15,7 +15,7 @@ block content
 
             .form__group
                 label(for='time') Tiempo
-                select#time.form__select(name='duration')
+                select#time.form__select(name='time')
                     each time in [15, 30, 45, 60, 90, 120]
                         option.select__option-time(value= `${time}`)= `${time}`
             
@@ -27,6 +27,6 @@ block content
                 label(for='description') Descripción
                 textarea#description(type='text')
                 
-            button.btn.btn__createQuiz Crear Quiz
+            button.btn.btn__createQuiz(type="submit") Crear Quiz
         
         script(src='/js/bundle/bundle.js')

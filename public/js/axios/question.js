@@ -8,7 +8,8 @@ export class Question {
     asignatura,
     temas,
     subtemas,
-    dificultad
+    dificultad,
+    quizId
   ) {
     try {
       const res = await axios({
@@ -21,12 +22,12 @@ export class Question {
           asignatura,
           temas,
           subtemas,
-          dificultad
+          dificultad,
         },
       });
       if (res.data.status === "success") {
         window.setTimeout(() => {
-          location.assign("/perfil");
+          location.assign(`/quiz/${quizId}/edit`);
         }, 1500);
       }
     } catch (err) {

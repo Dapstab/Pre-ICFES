@@ -4,8 +4,7 @@ export class Quiz {
   static sendDataToQuiz = async function (
     nombre,
     asignatura,
-    temas,
-    duracion,
+    tiempo,
     fechaEntrega,
     descripcion
   ) {
@@ -16,38 +15,27 @@ export class Quiz {
         data: {
           nombre,
           asignatura,
-          temas,
-          duracion,
+          tiempo,
           fechaEntrega,
-          descripcion
+          descripcion,
         },
       });
       if (res.data.status === "success") {
         window.setTimeout(() => {
-          const url = `/quiz/${res.data.quiz._id}`;
-          location.assign(`${url}`);
+          location.assign("http://127.0.0.1:3000/questions/create");
         }, 1500);
       }
-
-      return res.data.quiz;
+      return res.data.quiz._id;
     } catch (err) {
       console.log("Hubo un serio error gilipollas!!!");
     }
   };
 
-  static getQuiz = async function (quizId) {
-    const res = await axios(`http://127.0.0.1:5000/api/v1/sesiones/${quizId}`);
-    console.log(res);
-    return res.data.preguntas;
-  };
-
-  static updateUsersQuiz = async function (quizId) {
+  static endQuiz = async function (quizId) {
     try {
-      await axios.patch(`http://127.0.0.1:5000/api/v1/sesiones/${quizId}`, {
-        usuarios: "hello",
-      });
+      await axios.patch(`http://127.0.0.1:3000/api/v1/quiz/${quizId}/edit`);
     } catch (err) {
-      console.log(err);
+      console.log("Hubo un error en el axios de endQuiz");
     }
   };
 }

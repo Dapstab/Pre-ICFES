@@ -53,7 +53,7 @@ module.exports = class QuestionController {
   });
 
   static addUploadedBy = (req, res, next) => {
-    req.body.subido_por = req.user.nombre;
+    req.body.subidoPor = req.user.nombre;
     next();
   };
 };

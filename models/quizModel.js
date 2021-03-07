@@ -7,7 +7,7 @@ const quizSchema = new mongoose.Schema(
       type: String,
       trim: true,
       maxlength: [20, "El titulo no pude pasar los  20 caracteres"],
-      required: [true, "Todo quiz debe tener un nombre"]
+      required: [true, "Todo quiz debe tener un nombre"],
     },
     nPreguntas: {
       type: Number,
@@ -18,7 +18,6 @@ const quizSchema = new mongoose.Schema(
     },
     temas: {
       type: String,
-      required: [true, "Por favor escoja un tema de estudio"],
     },
     creadoPor: {
       type: String,
@@ -41,15 +40,15 @@ const quizSchema = new mongoose.Schema(
     },
     etapa: {
       type: String,
-      default: "sin publicar"
+      default: "sin publicar",
     },
     tiempo: {
-      type: Date,
-      required: [true, "Los quices deben tener una fecha de duración"]
+      type: Number,
+      required: [true, "Los quices deben tener una fecha de duración"],
     },
     descripcion: {
-      type: String
-    }
+      type: String,
+    },
   },
   {
     toJSON: { virtuals: true },

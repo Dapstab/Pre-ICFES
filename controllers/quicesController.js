@@ -12,30 +12,27 @@ module.exports = class QuizController {
   static getAllQuizs = Factory.getAll(Quiz);
 
   static setUserID = (req, res, next) => {
-    req.body.usuarios = req.user.id;
-    next();
-  };
-
-  static joinQuiz = (req, res, next) => {
-    req.body = {
-      $push: {
-        usuarios: req.user.id,
-      },
-    };
+    req.body.creadoPor = req.user.id;
     next();
   };
 
   static createQuiz = catchAsync(async (req, res, next) => {
     const quiz = await Quiz.create(req.body);
-    await User.findOneAndUpdate(req.user.id, {
-      quices: {
-        $push: quiz._id
-      }
-    });
-    await quiz.save({ validateBeforeSave: false });
+    const user = await User.findById(req.user.id);
+    user.quices.push(quiz._id);
+    await user.save({ validateBeforeSave: false });
     res.status(200).json({
       status: "success",
       quiz,
+    });
+  });
+
+  static endQuiz = catchAsync(async (req, res, next) => {
+    const quiz = await Quiz.findById(req.params.id);
+    quiz.preguntas = Factory.getQuizQuestions();
+    await quiz.save({ validateBeforeSave: false });
+    res.status(200).json({
+      status: "success",
     });
   });
 };

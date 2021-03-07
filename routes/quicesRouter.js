@@ -9,7 +9,7 @@ router.use(AuthController.protect);
 router
   .route("/:id")
   .get(QuicesController.getQuiz)
-  .patch(QuicesController.joinQuiz, QuicesController.updateQuiz);
+  .patch(QuicesController.updateQuiz);
 
 router.route("/").post(QuicesController.setUserID, QuicesController.createQuiz);
 

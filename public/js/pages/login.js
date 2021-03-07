@@ -4,7 +4,6 @@ import { Login } from "../axios/login";
 const loginForm = document.querySelector(".formLogin");
 const loginInputs = document.querySelectorAll(".formLogin__input");
 const logoutBtn = document.querySelector(".sidebar__menu--logout");
-
 export class LoginDOM {
   static animationInput = function () {
     if (loginInputs) {

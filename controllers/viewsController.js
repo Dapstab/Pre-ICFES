@@ -50,12 +50,11 @@ module.exports = class ViewsController {
   });
 
   static editQuiz = catchAsync(async (req, res, next) => {
-    const user = await User.findById(req.user.id);
-    console.log(user);
-    res.status(200).render("editQuiz", {
+    const quiz = await Quiz.findById(req.params.quizId);
+    res.status(200).render('editQuiz', {
       title: "Tablero de quiz",
-      quizzes: user.quices,
-    });
+      quiz
+    })
   });
 
   static createCourse = (req, res, next) => {
