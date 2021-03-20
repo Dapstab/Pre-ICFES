@@ -1,0 +1,27 @@
+doctype html
+html
+
+head
+    meta(charset="UTF-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    link(rel="icon" href="data:,")
+    link(href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet")
+    link(rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous")
+    link(rel="stylesheet", href="/css/style.css")
+    title= title 
+
+
+header.header 
+    h2
+        label(for="nav-toggle")
+            i.fas.fa-bars
+        |   Dashboard
+    .search-wrapper
+        i.fas.fa-search
+        input(type="search" placeholder="Buscar")
+    .user-wrapper 
+        img(src="#", alt="Aqui va el avatar o foto", width="40px", height="40px")
+        div
+            h4= user.nombre
+            small= user.rol

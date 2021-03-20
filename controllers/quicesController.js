@@ -18,9 +18,6 @@ module.exports = class QuizController {
 
   static createQuiz = catchAsync(async (req, res, next) => {
     const quiz = await Quiz.create(req.body);
-    const user = await User.findById(req.user.id);
-    user.quices.push(quiz._id);
-    await user.save({ validateBeforeSave: false });
     res.status(200).json({
       status: "success",
       quiz,
@@ -29,10 +26,21 @@ module.exports = class QuizController {
 
   static endQuiz = catchAsync(async (req, res, next) => {
     const quiz = await Quiz.findById(req.params.id);
+    console.log(quiz);
     quiz.preguntas = Factory.getQuizQuestions();
     await quiz.save({ validateBeforeSave: false });
     res.status(200).json({
       status: "success",
     });
+  });
+  
+  static hasBeenSolved = catchAsync(async (req, res, next) => {
+    const user = await User.find(
+      { _id: req.user._id }, 
+      {
+        quices: { $elemMatch: { _id: req.body.quizId, nota: { $exists: false } } }
+    });
+    req.body.solved =  user ? true : false;
+    next();
   });
 };

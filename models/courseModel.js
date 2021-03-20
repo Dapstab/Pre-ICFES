@@ -26,6 +26,14 @@ const courseSchema = new mongoose.Schema({
   codigo: {
     type: String
   },
+  quices: 
+    {
+    type: [mongoose.Schema.ObjectId],
+    ref: 'Quiz'
+  },
+  nota: {
+    type: Number
+  },
   fechaFinalizacion: Date
 });
 

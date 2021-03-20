@@ -1,55 +1,39 @@
+extends utils/metadata
+
 mixin navItem(link, text, icon, active)
     li.sidebar__menu-item
         a.sidebar__menu-link(class=`${active ? 'active' : ''}` href=`${link}`)
             //- span.las.la-igloo
             i(class=`fas fa-${icon}`)
             span #{text}
+block content
+    input#nav-toggle(type="checkbox")
+    .sidebar 
+        .sidebar__brand
+            h2.sidebar__title
+                //- span.lab.la-accusoft 
+                i.fab.fa-accusoft 
+                //- El logo del proyecto
+                span Accusoft
+        .sidebar__menu
+            ul.sidebar__menu-list
+                +navItem('/dashboard', 'Dashboard', 'igloo', true)
+                +navItem('/perfil', 'Perfil', 'user')
+                +navItem('/courses', 'Mis Cursos', 'book')
+                +navItem('/notas', 'Mis Notas', 'clipboard-list')
+    
+                li.sidebar__menu-item
+                    a.sidebar__menu-link(href="#")
+                        //- span.las.la-clipboard-list  
+                        i.fas.fa-sign-out-alt
+                        span 
+                            button.sidebar__menu--logout Cerrar Sesión
+    .main-content
+        // HEADER
+        include utils/_header
 
-doctype html
-html
-    head
-        block head
-            meta(charset='UTF-8')
-            meta(name='viewport' content='width=device-width, initial-scale=1.0')
-            link(rel="icon" href="data:,")
-            link(rel="preconnect" href="https://fonts.gstatic.com")
-            link(href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet")
-            //- link(rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css")
-            link(rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous")
-            link(rel="stylesheet", href="/css/style.css")
-            title PvPScience | #{title}
+        // CONTENT
+        block content
 
-    body
-        input#nav-toggle(type="checkbox")
-        .sidebar 
-            .sidebar__brand
-                h2.sidebar__title
-                    //- span.lab.la-accusoft 
-                    i.fab.fa-accusoft 
-                    //- El logo del proyecto
-                    span Accusoft
-            .sidebar__menu
-                ul.sidebar__menu-list
-                    +navItem('/tablero', 'Dashboard', 'igloo', true)
-                    +navItem('/tablero/perfil', 'Perfil', 'user')
-                    +navItem('/tablero/curso', 'Mis Cursos', 'book')
-                    +navItem('#', 'Mis Notas', 'clipboard-list')
-                    +navItem('#', 'Mis Quices', 'tasks')
-        
-                    li.sidebar__menu-item
-                        a.sidebar__menu-link(href="#")
-                            //- span.las.la-clipboard-list  
-                            i.fas.fa-sign-out-alt
-                            span 
-                                button.sidebar__menu--logout Cerrar Sesión
-        .main-content
-            // HEADER
-            include _header
-
-            // CONTENT
-            block content
-
-            // FOOTER
-            //-include _footer
-
-        script(src='/js/bundle/bundle.js')
+        // FOOTER
+        // include utils/_footer

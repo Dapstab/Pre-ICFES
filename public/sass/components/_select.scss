@@ -1,0 +1,28 @@
+.select {
+  position: relative;
+  &::after {
+    content: "";
+    border: 7px solid transparent;
+    border-top-color: black;
+    position: absolute;
+    top: 47%;
+    left: 38%;
+    pointer-events: none;
+  }
+}//avoid using outline: 0.  
+
+select {
+  position: relative;
+  padding: .5em 1.1em;
+  font-size: 1.3rem;
+  margin: 0 1em 1em 1em;
+  background: white;
+  appearance: none;
+  border: 1px solid gray;
+  min-width: 20rem;
+  max-width: 40rem;
+  min-height: 3rem;
+  outline: 0;
+  background-color: #fff100;
+  background-color: #ff8200;
+}

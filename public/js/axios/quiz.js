@@ -20,11 +20,6 @@ export class Quiz {
           descripcion,
         },
       });
-      if (res.data.status === "success") {
-        window.setTimeout(() => {
-          location.assign("http://127.0.0.1:3000/questions/create");
-        }, 1500);
-      }
       return res.data.quiz._id;
     } catch (err) {
       console.log("Hubo un serio error gilipollas!!!");
@@ -33,7 +28,7 @@ export class Quiz {
 
   static endQuiz = async function (quizId) {
     try {
-      await axios.patch(`http://127.0.0.1:3000/api/v1/quiz/${quizId}/edit`);
+      await axios.patch(`http://127.0.0.1:3000/api/v1/quiz/edit/${quizId}`);
     } catch (err) {
       console.log("Hubo un error en el axios de endQuiz");
     }

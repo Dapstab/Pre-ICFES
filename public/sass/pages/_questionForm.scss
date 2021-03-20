@@ -1,3 +1,4 @@
+
   .stepOne, .stepTwo {
     display: flex;
     flex-direction: column;
@@ -6,26 +7,9 @@
   .hidden {
     display: none;
   }
-
-  select {
-    margin: 1.2em;
-  }
   
   .label-subject {
     margin-top: 1.2em;
-  }
-
-  select {
-    width: 300px;
-  }
-
-  label {
-    margin-left: 15px;
-  }
-
-  textarea {
-    overflow: hidden;
-    resize: none;
   }
 
   .question {

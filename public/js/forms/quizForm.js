@@ -1,7 +1,7 @@
 import { Quiz } from "../axios/quiz";
 
 let quizId;
-const careverga = 3;
+
 export const createQuiz = function () {
   const quizForm = document.getElementById("form__quiz");
   quizForm.addEventListener("submit", async function (e) {
@@ -18,6 +18,12 @@ export const createQuiz = function () {
       fechaEntrega,
       descripcion
     );
-    console.log(quizId);
+    const url = new URL("http://127.0.0.1:3000/quiz/question");
+    url.searchParams.set("quiz", quizId);
+    if (quizId) {
+      window.setTimeout(() => {
+        location.assign(url);
+      }, 1500);
+    }
   });
 };

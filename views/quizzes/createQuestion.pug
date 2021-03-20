@@ -1,3 +1,4 @@
+extends ../utils/metadata 
 
 mixin getOptions(opt)
     .option
@@ -5,7 +6,7 @@ mixin getOptions(opt)
         textarea.options(name=`option-${opt}`, id=`option-${opt}`, placeholder="Escribe tu respuesta aquí.")
         i.fas.fa-image
 
-block content 
+block content
     form#form__question
         fieldset.stepOne(name='part-1')
             legend Parte 1 / 2
@@ -39,4 +40,4 @@ block content
             button.prevBtn(type='button') Atrás
             button(type='submit') Terminar
 
-        script(src='/js/bundle/bundle.js')
+    script(src='/js/bundle/bundle.js')

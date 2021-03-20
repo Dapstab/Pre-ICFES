@@ -63,12 +63,11 @@ const userSchema = new mongoose.Schema(
       },
     },
     foto: String,
-    quices: [
+    cursos: [
       {
         type: mongoose.Schema.ObjectId,
-        ref: "Quiz",
-        nota: Number
-      },
+        ref: "Course",
+      }
     ],
     activo: {
       default: "true",

@@ -8,8 +8,7 @@ export class Question {
     asignatura,
     temas,
     subtemas,
-    dificultad,
-    quizId
+    dificultad
   ) {
     try {
       const res = await axios({
@@ -26,8 +25,9 @@ export class Question {
         },
       });
       if (res.data.status === "success") {
+        const params = new URLSearchParams(document.location.search); 
         window.setTimeout(() => {
-          location.assign(`/quiz/${quizId}/edit`);
+          location.assign(`/quiz/edit/${params.get('quiz')}`);
         }, 1500);
       }
     } catch (err) {

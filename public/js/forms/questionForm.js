@@ -2,9 +2,6 @@ import { Filter } from "../utils/filterTopics";
 import { temas, subtemas } from "../utils/data";
 import { resize } from "../utils/resize";
 import { Question } from "../axios/question";
-import { CreateQuiz } from "./quizForm.js";
-
-console.log(CreateQuiz.quizId);
 
 export const QuestionForm = () => {
   let stepIndex = 0;
@@ -24,7 +21,6 @@ export const QuestionForm = () => {
   const prevBtns = document.querySelectorAll(".prevBtn");
   currentPage(nextBtns, "+");
   currentPage(prevBtns, "-");
-
   removeData();
   showTopics();
   showSubTopics();
@@ -96,7 +92,6 @@ export const QuestionForm = () => {
           respuesta = ele.value;
         }
       });
-      console.log("hola desde questionForm", CreateQuiz.quizId);
       Question.createQuestion(
         pregunta,
         opciones,
@@ -104,8 +99,7 @@ export const QuestionForm = () => {
         asignatura,
         temas,
         subtemas,
-        dificultad,
-        CreateQuiz.quizId
+        dificultad
       );
     });
   }

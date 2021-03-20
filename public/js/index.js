@@ -8,8 +8,6 @@ import { join } from "./modals/joinModal";
 import { DashboardDOM } from "./pages/dashborad";
 import { editQuiz } from "./pages/editQuiz";
 
-console.log(createQuiz);
-
 // HomePage
 LoginDOM.login();
 LoginDOM.animationInput();
@@ -24,7 +22,7 @@ SignupDOM.animationInput();
 //Dashborad
 DashboardDOM.setActiveNavs();
 
-if (document.URL === "http://127.0.0.1:3000/questions/create") {
+if (document.URL.includes("/quiz/question"))  {
   QuestionForm();
 }
 
@@ -32,18 +30,11 @@ if (document.URL === "http://127.0.0.1:3000/quiz") {
   createQuiz();
 }
 
-if (document.URL === "http://127.0.0.1:3000/tablero/curso") {
+if (document.URL.includes("/tablero/curso")) {
   courseModal();
-}
-
-if (
-  document.URL === "http://127.0.0.1:3000/tablero/curso/bcb1ac5bd7d3bd944a04"
-) {
   join();
 }
 
-if (
-  document.URL === "http://127.0.0.1:3000/quiz/604416d57dc248253029121d/edit"
-) {
+if (document.URL.includes("/quiz/edit")) {
   editQuiz();
 }

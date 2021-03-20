@@ -13,7 +13,7 @@ export class Login {
       });
       if (res.data.status === "success") {
         window.setTimeout(() => {
-          location.assign("/tablero");
+          location.assign("/dashboard");
         }, 1500);
       }
       console.log(res);

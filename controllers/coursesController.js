@@ -5,6 +5,9 @@ const Course = require("../models/courseModel");
 
 
 module.exports = class CourseController {
+    static getCourse = Factory.getOne(Course);
+    static deleteCourse = Factory.deleteOne(Course);
+    static updateCousre = Factory.updateOne(Course);
     static createCourse = Factory.createOne(Course);
     static addProfessor = (req, res, next) => {
         req.body.profesor = req.user.id;

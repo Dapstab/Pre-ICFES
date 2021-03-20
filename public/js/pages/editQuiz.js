@@ -5,7 +5,7 @@ const addQuizQuestion = document.querySelector(".add-question");
 
 export const editQuiz = function () {
   endQuizBtn.addEventListener("click", () => {
-    const quizId = document.URL.split("/")[2];
+    const quizId = document.URL.split("/")[5];
     Quiz.endQuiz(quizId);
   });
 
