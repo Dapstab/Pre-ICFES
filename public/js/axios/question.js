@@ -1,6 +1,7 @@
 import axios from "axios";
-
+import addToArrayLS from "../utils/addToArrayLS";
 export class Question {
+  static questions = [];
   static async createQuestion(
     pregunta,
     opciones,
@@ -25,10 +26,18 @@ export class Question {
         },
       });
       if (res.data.status === "success") {
-        const params = new URLSearchParams(document.location.search); 
-        window.setTimeout(() => {
-          location.assign(`/quiz/edit/${params.get('quiz')}`);
-        }, 1500);
+        const question = res.data.newDoc;
+        const data = JSON.parse(localStorage.getItem('questions'));
+        if (data) {
+          data.push(question);
+        }
+        this.questions.push(question);
+        console.log(data);
+        localStorage.setItem('questions', JSON.stringify(data ? data : this.questions));
+        //addToArrayLS('questions', JSON.stringify(question));
+        /* window.setTimeout(() => {
+          location.assign(`/quiz/edit`);
+        }, 500); */
       }
     } catch (err) {
       console.log(err);

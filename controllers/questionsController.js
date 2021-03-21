@@ -43,8 +43,7 @@ module.exports = class QuestionController {
       ]);
     }
 
-    const data =
-      subtopics !== undefined ? subtopics[0].subtemas : topics[0].temas;
+    const data = subtopics !== undefined ? subtopics[0].subtemas : topics[0].temas;
     res.status(200).json({
       status: "success",
       results: data.length,
@@ -56,4 +55,14 @@ module.exports = class QuestionController {
     req.body.subidoPor = req.user.nombre;
     next();
   };
+
+  static addQuestion = catchAsync( async (req, res, next) => {
+    req.body.subidoPor = req.user.nombre;
+    const question = await this.createQuestion(req.body);
+    this.questions.push(question);
+    res.status(200).json({
+      status: 'success',
+      question
+    }); 
+  });
 };

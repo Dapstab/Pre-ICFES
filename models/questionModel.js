@@ -60,17 +60,6 @@ const questionSchema = new mongoose.Schema({
 
 exports.questionSchema = questionSchema;
 
-questionSchema.pre("save", function (next) {
-  if (this.respuesta.type !== Number) {
-    this.formato === "multiple respuesta"
-      ? (this.respuesta.type = [Number])
-      : (this.respuesta.type = String);
-  }
-  next();
-});
-
 questionSchema.path("dificultad").options.enum;
 
 exports.Question = mongoose.model("Question", questionSchema, "preguntas");
-
-//module.exports = Question;

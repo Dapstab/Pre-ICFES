@@ -5,13 +5,10 @@ import { Question } from "../axios/question";
 
 export const QuestionForm = () => {
   let stepIndex = 0;
-  let counter = 0;
   const topics = document.querySelector("#topics");
   const subtopics = document.querySelector("#subtopics");
   const subject = document.querySelector("#subject");
   const textareas = document.querySelectorAll("textarea");
-  const topicList = document.querySelector(".topics");
-  const subTopicList = document.querySelector(".subtopics");
   const questionForm = document.getElementById("form__question");
 
   textareas.forEach((textarea) => resize(textarea));
@@ -24,7 +21,6 @@ export const QuestionForm = () => {
   removeData();
   showTopics();
   showSubTopics();
-  closeTopic();
   sendQuestionData();
   function currentPage(domArray, inc) {
     domArray.forEach((button) =>
@@ -34,20 +30,6 @@ export const QuestionForm = () => {
         steps[stepIndex].classList.remove("hidden");
       })
     );
-  }
-  function closeTopic(name, tag) {
-    let data = document.createElement("li");
-    data.innerHTML = `<span class="close-${counter}">X</span> ${name}`;
-    data.classList.add(`${tag}-${counter}`);
-    tag === "topic"
-      ? topicList.appendChild(data)
-      : subTopicList.appendChild(data);
-    data = document.querySelector(`.${tag}-${counter}`);
-    let close = document.querySelector(`.close-${counter}`);
-    close.addEventListener("click", () => {
-      data.remove();
-    });
-    counter++;
   }
   function removeData() {
     subject.addEventListener("change", () => {
@@ -65,12 +47,8 @@ export const QuestionForm = () => {
 
   function showSubTopics() {
     topics.addEventListener("change", (e) => {
-      closeTopic(e.target.value, "topic");
       Filter.removeOptions(subtopics);
       Filter.addOptions(subtopics, subtemas[e.target.value]);
-    });
-    subtopics.addEventListener("change", (e) => {
-      closeTopic(e.target.value, "subtopic");
     });
   }
 
@@ -101,6 +79,8 @@ export const QuestionForm = () => {
         subtemas,
         dificultad
       );
+      e.stopImmediatePropagation();
     });
+
   }
 };

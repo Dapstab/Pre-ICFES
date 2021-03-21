@@ -5,13 +5,12 @@ const addQuizQuestion = document.querySelector(".add-question");
 
 export const editQuiz = function () {
   endQuizBtn.addEventListener("click", () => {
-    const quizId = document.URL.split("/")[5];
-    Quiz.endQuiz(quizId);
+    Quiz.endQuiz(window.localStorage.getItem('quiz'));
   });
 
   addQuizQuestion.addEventListener("click", () => {
     window.setTimeout(() => {
-      location.assign("http://127.0.0.1:3000/questions/create");
+      location.assign("http://127.0.0.1:3000/quiz/question");
     }, 1500);
   });
 };

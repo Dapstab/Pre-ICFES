@@ -1,6 +1,5 @@
 import { Quiz } from "../axios/quiz";
 
-let quizId;
 
 export const createQuiz = function () {
   const quizForm = document.getElementById("form__quiz");
@@ -11,19 +10,18 @@ export const createQuiz = function () {
     const tiempo = document.getElementById("time").value;
     const fechaEntrega = document.getElementById("due-date").value;
     const descripcion = document.getElementById("description").value;
-    quizId = await Quiz.sendDataToQuiz(
+    const quizId = await Quiz.sendDataToQuiz(
       nombre,
       asignatura,
       tiempo,
       fechaEntrega,
       descripcion
     );
-    const url = new URL("http://127.0.0.1:3000/quiz/question");
-    url.searchParams.set("quiz", quizId);
-    if (quizId) {
-      window.setTimeout(() => {
-        location.assign(url);
-      }, 1500);
+    window.localStorage.setItem("quiz", quizId);
+    if (quizId){
+        window.setTimeout(() => {
+        location.assign("http://127.0.0.1:3000/quiz/question");
+      }, 500);
     }
   });
 };

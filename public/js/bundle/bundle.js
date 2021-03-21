@@ -8831,6 +8831,21 @@ function resize(textarea) {
     this.style.height = this.scrollHeight + 'px';
   }, false);
 }
+},{}],"utils/addToArrayLS.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = addToArrayLS;
+
+function addToArrayLS(name, element) {
+  var array = window.localStorage.getItem(name);
+  array = array ? array : [];
+  console.log(array);
+  array.push(element);
+  localStorage.setItem(name, array);
+}
 },{}],"axios/question.js":[function(require,module,exports) {
 "use strict";
 
@@ -8840,6 +8855,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.Question = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
+
+var _addToArrayLS = _interopRequireDefault(require("../utils/addToArrayLS"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8853,6 +8870,8 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var Question = /*#__PURE__*/function () {
   function Question() {
     _classCallCheck(this, Question);
@@ -8862,7 +8881,7 @@ var Question = /*#__PURE__*/function () {
     key: "createQuestion",
     value: function () {
       var _createQuestion = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(pregunta, opciones, respuesta, asignatura, temas, subtemas, dificultad) {
-        var res, params;
+        var res, question, data;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -8887,10 +8906,20 @@ var Question = /*#__PURE__*/function () {
                 res = _context.sent;
 
                 if (res.data.status === "success") {
-                  params = new URLSearchParams(document.location.search);
-                  window.setTimeout(function () {
-                    location.assign("/quiz/edit/".concat(params.get('quiz')));
-                  }, 1500);
+                  question = res.data.newDoc;
+                  data = JSON.parse(localStorage.getItem('questions'));
+
+                  if (data) {
+                    data.push(question);
+                  }
+
+                  this.questions.push(question);
+                  console.log(data);
+                  localStorage.setItem('questions', JSON.stringify(data ? data : this.questions)); //addToArrayLS('questions', JSON.stringify(question));
+
+                  /* window.setTimeout(() => {
+                    location.assign(`/quiz/edit`);
+                  }, 500); */
                 }
 
                 _context.next = 10;
@@ -8906,7 +8935,7 @@ var Question = /*#__PURE__*/function () {
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 7]]);
+        }, _callee, this, [[0, 7]]);
       }));
 
       function createQuestion(_x, _x2, _x3, _x4, _x5, _x6, _x7) {
@@ -8921,7 +8950,9 @@ var Question = /*#__PURE__*/function () {
 }();
 
 exports.Question = Question;
-},{"axios":"../../node_modules/axios/index.js"}],"forms/questionForm.js":[function(require,module,exports) {
+
+_defineProperty(Question, "questions", []);
+},{"axios":"../../node_modules/axios/index.js","../utils/addToArrayLS":"utils/addToArrayLS.js"}],"forms/questionForm.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8939,13 +8970,10 @@ var _question = require("../axios/question");
 
 var QuestionForm = function QuestionForm() {
   var stepIndex = 0;
-  var counter = 0;
   var topics = document.querySelector("#topics");
   var subtopics = document.querySelector("#subtopics");
   var subject = document.querySelector("#subject");
   var textareas = document.querySelectorAll("textarea");
-  var topicList = document.querySelector(".topics");
-  var subTopicList = document.querySelector(".subtopics");
   var questionForm = document.getElementById("form__question");
   textareas.forEach(function (textarea) {
     return (0, _resize.resize)(textarea);
@@ -8958,7 +8986,6 @@ var QuestionForm = function QuestionForm() {
   removeData();
   showTopics();
   showSubTopics();
-  closeTopic();
   sendQuestionData();
 
   function currentPage(domArray, inc) {
@@ -8969,19 +8996,6 @@ var QuestionForm = function QuestionForm() {
         steps[stepIndex].classList.remove("hidden");
       });
     });
-  }
-
-  function closeTopic(name, tag) {
-    var data = document.createElement("li");
-    data.innerHTML = "<span class=\"close-".concat(counter, "\">X</span> ").concat(name);
-    data.classList.add("".concat(tag, "-").concat(counter));
-    tag === "topic" ? topicList.appendChild(data) : subTopicList.appendChild(data);
-    data = document.querySelector(".".concat(tag, "-").concat(counter));
-    var close = document.querySelector(".close-".concat(counter));
-    close.addEventListener("click", function () {
-      data.remove();
-    });
-    counter++;
   }
 
   function removeData() {
@@ -9002,14 +9016,9 @@ var QuestionForm = function QuestionForm() {
 
   function showSubTopics() {
     topics.addEventListener("change", function (e) {
-      closeTopic(e.target.value, "topic");
-
       _filterTopics.Filter.removeOptions(subtopics);
 
       _filterTopics.Filter.addOptions(subtopics, _data.subtemas[e.target.value]);
-    });
-    subtopics.addEventListener("change", function (e) {
-      closeTopic(e.target.value, "subtopic");
     });
   }
 
@@ -9033,6 +9042,8 @@ var QuestionForm = function QuestionForm() {
       });
 
       _question.Question.createQuestion(pregunta, opciones, respuesta, asignatura, temas, subtemas, dificultad);
+
+      e.stopImmediatePropagation();
     });
   }
 };
@@ -9087,14 +9098,15 @@ _defineProperty(Quiz, "sendDataToQuiz", /*#__PURE__*/function () {
 
           case 3:
             res = _context.sent;
-            return _context.abrupt("return", res.data.quiz._id);
+            return _context.abrupt("return", res.data.newDoc._id);
 
           case 7:
             _context.prev = 7;
             _context.t0 = _context["catch"](0);
+            console.log(_context.t0);
             console.log("Hubo un serio error gilipollas!!!");
 
-          case 10:
+          case 11:
           case "end":
             return _context.stop();
         }
@@ -9109,29 +9121,44 @@ _defineProperty(Quiz, "sendDataToQuiz", /*#__PURE__*/function () {
 
 _defineProperty(Quiz, "endQuiz", /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(quizId) {
+    var res;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
             _context2.prev = 0;
             _context2.next = 3;
-            return _axios.default.patch("http://127.0.0.1:3000/api/v1/quiz/edit/".concat(quizId));
+            return (0, _axios.default)({
+              method: 'PATCH',
+              url: "http://127.0.0.1:3000/api/v1/quiz/edit/".concat(quizId),
+              data: JSON.parse(window.localStorage.getItem('questions'))
+            });
 
           case 3:
-            _context2.next = 8;
+            res = _context2.sent;
+
+            if (res.data.status === "success") {
+              localStorage.removeItem('questions');
+              localStorage.removeItem('quiz');
+              window.setTimeout(function () {
+                location.assign("http://127.0.0.1:3000/dashboard");
+              }, 1500);
+            }
+
+            _context2.next = 10;
             break;
 
-          case 5:
-            _context2.prev = 5;
+          case 7:
+            _context2.prev = 7;
             _context2.t0 = _context2["catch"](0);
             console.log("Hubo un error en el axios de endQuiz");
 
-          case 8:
+          case 10:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[0, 5]]);
+    }, _callee2, null, [[0, 7]]);
   }));
 
   return function (_x6) {
@@ -9152,13 +9179,11 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-var quizId;
-
 var createQuiz = function createQuiz() {
   var quizForm = document.getElementById("form__quiz");
   quizForm.addEventListener("submit", /*#__PURE__*/function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {
-      var nombre, asignatura, tiempo, fechaEntrega, descripcion, url;
+      var nombre, asignatura, tiempo, fechaEntrega, descripcion, quizId;
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -9174,16 +9199,15 @@ var createQuiz = function createQuiz() {
 
             case 8:
               quizId = _context.sent;
-              url = new URL("http://127.0.0.1:3000/quiz/question");
-              url.searchParams.set("quiz", quizId);
+              window.localStorage.setItem("quiz", quizId);
 
               if (quizId) {
                 window.setTimeout(function () {
-                  location.assign(url);
-                }, 1500);
+                  location.assign("http://127.0.0.1:3000/quiz/question");
+                }, 500);
               }
 
-            case 12:
+            case 11:
             case "end":
               return _context.stop();
           }
@@ -58922,13 +58946,11 @@ var addQuizQuestion = document.querySelector(".add-question");
 
 var editQuiz = function editQuiz() {
   endQuizBtn.addEventListener("click", function () {
-    var quizId = document.URL.split("/")[5];
-
-    _quiz.Quiz.endQuiz(quizId);
+    _quiz.Quiz.endQuiz(window.localStorage.getItem('quiz'));
   });
   addQuizQuestion.addEventListener("click", function () {
     window.setTimeout(function () {
-      location.assign("http://127.0.0.1:3000/questions/create");
+      location.assign("http://127.0.0.1:3000/quiz/question");
     }, 1500);
   });
 };
@@ -59275,7 +59297,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54969" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58338" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

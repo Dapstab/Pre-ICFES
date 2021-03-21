@@ -29,11 +29,6 @@ const quizSchema = new mongoose.Schema(
       required: [true, "Los quices deben tener una fecha de entrega"],
     },
     preguntas: [questionSchema],
-    /* tipo: {
-      type: String,
-      enum: ["personalizable", "aleatorio"],
-      default: "aleatorio",
-    }, */
     fechaCreacion: {
       type: Date,
       default: Date.now(),

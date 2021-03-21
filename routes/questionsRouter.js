@@ -1,6 +1,7 @@
 const express = require("express");
 const AuthController = require("../controllers/authController");
 const QuestionController = require("../controllers/questionsController");
+const { Question } = require("../models/questionModel");
 
 const router = express.Router();
 
@@ -16,6 +17,7 @@ router
   .get(QuestionController.getQuestion)
   .patch(QuestionController.updateQuestion)
   .delete(QuestionController.deleteQuestion);
+router.post("/quiz", QuestionController.addQuestion);
 router.post("/temas", QuestionController.getData);
 router.post("/subtemas", QuestionController.getData);
 module.exports = router;
