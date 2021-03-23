@@ -1,17 +1,19 @@
 extends ../utils/metadata
 
-mixin questionItem(question)
-    p question.pregunta
-    ul 
+mixin questionItem(question, name)
+    p= question.pregunta
+    ul.optionsContainer(data-indexQ=`${name}`)
         each option, i in question.opciones 
             li 
-                label(for=`option-${i}`) option
-                input(type="radio", id=`option-${i}`)
+                label(for=`option-${i}`)= option
+                input.option-input(type="radio", id=`option-${i}` name=`${name}` data-indexO=`${i}`)
 
 block append head 
     <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});</script>
 
-block content 
-    each question in quiz.preguntas
-        +questionItem(question)
+block content
+    form.questions(data-quizquestions=quiz.preguntas)
+        each question, i in quiz.preguntas
+            +questionItem(question, i)
+        button.solveQuizBtn Finalizar Quiz

@@ -2,6 +2,7 @@ const User = require("../models/userModel");
 const Factory = require("./factoryController");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
+const Student = require("../models/studentModel");
 
 const filterObj = (obj, ...allowedFields) => {
   let newObj = {};
@@ -51,6 +52,16 @@ module.exports = class UserController {
     res.status(204).json({
       status: "success",
       data: null,
+    });
+  });
+
+  static addQuizGrade = catchAsync( async (req, res, next) => {
+    const student = await Student.findById(req.user.id);
+    const result = student.notas.push({  quiz: req.body.quizId, nota: req.body.grade });
+    await student.save({ validateBeforeSave: false });
+    res.status(200).json({
+      status: "success",
+      result
     });
   });
 };

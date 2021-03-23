@@ -30,8 +30,8 @@ router.get("/quiz/:quizId", QuicesController.hasBeenSolved, ViewsController.solv
 // COURSE
 
 router.get("/courses", ViewsController.getCourses); //Courses
-router.get("/:courseId", ViewsController.getCourse);  // Particular Course
-router.get("/:course/:quizId", ViewsController.getQuiz);  //Particular Quiz
+router.get("/course/:courseId", ViewsController.getCourse);  // Particular Course
+router.get("/course/:courseId/:quizId", ViewsController.getQuiz);  //Particular Quiz
 
 
 // router.route("/tablero/curso/:code").patch(ViewsController.joinCourse); Crear nueva pug en vez de tablero

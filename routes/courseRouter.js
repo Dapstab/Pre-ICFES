@@ -1,8 +1,11 @@
 const express = require("express");
 const AuthController = require("../controllers/authController");
 const CourseController = require("../controllers/coursesController");
+const quizRouter = require('./quicesRouter');
 
 const router = express.Router();
+
+// router.use('/:courseId/quiz', quizRouter);
 
 router.use(AuthController.protect);
 

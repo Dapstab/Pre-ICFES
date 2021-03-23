@@ -34,10 +34,9 @@ export class Question {
         this.questions.push(question);
         console.log(data);
         localStorage.setItem('questions', JSON.stringify(data ? data : this.questions));
-        //addToArrayLS('questions', JSON.stringify(question));
-        /* window.setTimeout(() => {
+        window.setTimeout(() => {
           location.assign(`/quiz/edit`);
-        }, 500); */
+        }, 500);
       }
     } catch (err) {
       console.log(err);

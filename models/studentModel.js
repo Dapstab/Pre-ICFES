@@ -6,8 +6,12 @@ const studentSchema = new mongoose.Schema({
         type: [mongoose.Schema.ObjectId],
         ref: "Professor"
     },
+    //Objeto
     notas: [{
-        quizId: { type: mongoose.Schema.ObjectId },
+        quizId: { 
+            type: mongoose.Schema.ObjectId,
+            ref: 'Quiz'
+        },
         nota: Number           
     }]
 }, { discriminatorKey: 'role' });

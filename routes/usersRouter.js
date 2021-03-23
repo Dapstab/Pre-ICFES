@@ -22,7 +22,8 @@ router.patch("/eliminarYo", UsersController.deleteMe);
 router
   .route("/")
   .post(UsersController.createUser)
-  .get(UsersController.getAllUsers);
+  .get(UsersController.getAllUsers)
+  .patch(UsersController.addQuizGrade); // Se cambio el factory a req.user.id es por ello que no usamos req.params
 
 router
   .route("/:id")
@@ -30,6 +31,7 @@ router
   .patch(UsersController.updateUser)
   .delete(UsersController.deleteUser);
 
+/* router.route("/:id/grade").patch(UsersController.updateGrade, UsersController.updateUser); */
 /* router.route('/:id/listaAmigos')
 .post(AmigosCtrl.sendFriendRequest)
 .patch(AmigosCtrl.acceptFriendRequest); */

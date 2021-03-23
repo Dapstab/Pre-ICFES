@@ -29,11 +29,14 @@ module.exports = class ViewsController {
   });
 
   static solveQuiz = catchAsync(async (req, res, next) => {
-    const quiz = await Quiz.findById(req.params.quizId);
-    res.status(200).render("quizzes/quiz", {
-      title: "Quices",
-      quiz,
-    });
+    if (!req.body.solved) {
+      const quiz = await Quiz.findById(req.params.quizId);
+      res.status(200).render("quizzes/quiz", {
+        title: "Quices",
+        quiz,
+      });
+    }
+    res.redirect("/quiz/view");
   });
 
   static getQuestionForm = (req, res) => {
@@ -114,10 +117,10 @@ module.exports = class ViewsController {
 
   ///quiz/view/:quizId
   static viewQuiz = catchAsync(async (req, res, next) => {
-    const quizStats = await quizStatsModel.findById(req.params.quizId);
+    // const quizStats = await quizStatsModel.findById(req.params.quizId);
     res.status(200).render("quizzes/viewQuiz", {
       title: "Resultados",
-      quizStats
+      // quizStats
     });
   });
 };

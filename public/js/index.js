@@ -7,7 +7,8 @@ import { courseModal } from "./modals/courseModal";
 import { join } from "./modals/joinModal";
 import { DashboardDOM } from "./pages/dashborad";
 import { editQuiz } from "./pages/editQuiz";
-
+import { solveQuiz } from './pages/solveQuiz';
+import { showResults } from './pages/viewQuiz'
 // HomePage
 LoginDOM.login();
 LoginDOM.animationInput();
@@ -37,4 +38,14 @@ if (document.URL.includes("/tablero/curso")) {
 
 if (document.URL.includes("/quiz/edit")) {
   editQuiz();
+}
+
+if (document.URL.includes("/quiz/6057f019999cf815745702a4")) {
+  /* SolveQuiz.getAnswers();
+  SolveQuiz.sendAnswers(); */
+  solveQuiz();
+}
+
+if (document.URL.includes('/quiz/view')) {
+  showResults();
 }

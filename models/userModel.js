@@ -59,7 +59,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "estudiante",
       enum: {
-        values: ["admin", "estudiante", "contribuidor", "maestro"],
+        values: ["admin", "estudiante", "profesor"],
       },
     },
     foto: String,

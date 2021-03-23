@@ -1,16 +1,25 @@
 const Quiz = require("../models/quizModel");
 const Factory = require("./factoryController");
 const catchAsync = require("../utils/catchAsync");
-const QuestionController = require("../controllers/questionsController");
-const User = require("../models/userModel");
-
+const Student = require("../models/studentModel");
+const Course = require("../models/courseModel"); 
 
 module.exports = class QuizController {
   static getQuiz = Factory.getOne(Quiz, { path: "preguntas" });
   static deleteQuiz = Factory.deleteOne(Quiz);
   static updateQuiz = Factory.updateOne(Quiz);
-  static createQuiz = Factory.createOne(Quiz);
   static getAllQuizs = Factory.getAll(Quiz);
+  
+  static createQuiz = catchAsync ( async (req, res, next) => {
+    const course = await Course.findById(req.body.courseId);
+    delete req.body.courseId;
+    const quiz = await Quiz.create(req.body);
+    course.quices.push(quiz);
+    await course.save();
+    res.status(200).json({
+      status: "success"
+    });
+  });
 
   static addUploadedBy = (req, res, next) => {
     req.body.creadoPor = req.user.nombre;
@@ -27,11 +36,11 @@ module.exports = class QuizController {
   });
 
   static hasBeenSolved = catchAsync(async (req, res, next) => {
-    const user = await User.find(
+    const user = await Student.find(
       { _id: req.user._id },
       {
-        quices: {
-          $elemMatch: { _id: req.body.quizId, nota: { $exists: false } },
+        notas: {
+          $elemMatch: { _id: req.params.quizId },
         },
       }
     );
