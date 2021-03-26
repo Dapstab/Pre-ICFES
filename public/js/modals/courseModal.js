@@ -12,14 +12,16 @@ export const courseModal = () => {
         overlay.classList.remove('hidden'); 
     });
 
-    courseForm.addEventListener('submit', e => {
+    courseForm.addEventListener('submit', async e => {
         e.preventDefault();
         courseForm.classList.add('hidden');
         const code = crypto.randomBytes(10).toString('hex');
-        const nombre = document.getElementById('name').value;
+        let nombre = document.getElementById('name').value;
         const asignatura = document.getElementById('subject').value;
-        Course.createCourse(nombre, asignatura, code);
+        // Creando el curso
+        await Course.createCourse(nombre, asignatura, code);
     });
+ 
 
     overlay.addEventListener('click', () => {
         formContainer.classList.add('hidden');

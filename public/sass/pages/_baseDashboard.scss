@@ -107,3 +107,9 @@
   // Se combina con la propieda de arriba #nav-toggle:checked ~ .main-content para lograr un efecto mas suave
   margin-left: 34.5rem;
 }
+
+.main {
+ margin-top: 85px;
+  padding: 2rem 1.5rem;
+  min-height: calc(100vh- 90px);
+}

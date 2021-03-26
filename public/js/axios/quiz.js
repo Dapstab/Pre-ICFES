@@ -6,7 +6,8 @@ export class Quiz {
     asignatura,
     tiempo,
     fechaEntrega,
-    descripcion
+    descripcion,
+    cursoId
   ) {
     try {
       const res = await axios({
@@ -18,8 +19,10 @@ export class Quiz {
           tiempo,
           fechaEntrega,
           descripcion,
+          cursoId
         }
       });
+      console.log(res.data);
       return res.data.newDoc._id;
     } catch (err) {
       console.log(err);
@@ -32,7 +35,7 @@ export class Quiz {
       const res = await axios({
         method: 'PATCH',
         url: `http://127.0.0.1:3000/api/v1/quiz/edit/${quizId}`,
-        data: JSON.parse(window.localStorage.getItem('questions'))
+        data: JSON.parse(localStorage.getItem('questions'))
       });
       if (res.data.status === "success") {
         localStorage.removeItem('questions');

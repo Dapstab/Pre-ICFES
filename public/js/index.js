@@ -8,7 +8,8 @@ import { join } from "./modals/joinModal";
 import { DashboardDOM } from "./pages/dashborad";
 import { editQuiz } from "./pages/editQuiz";
 import { solveQuiz } from './pages/solveQuiz';
-import { showResults } from './pages/viewQuiz'
+import { showResults } from './pages/viewQuiz';
+import { Courses } from './pages/courses';
 // HomePage
 LoginDOM.login();
 LoginDOM.animationInput();
@@ -20,8 +21,10 @@ LoginDOM.logout();
 SignupDOM.signup();
 SignupDOM.animationInput();
 
-//Dashborad
-DashboardDOM.setActiveNavs();
+//Dashboard
+if (document.URL.includes("/dashboard")) {
+  DashboardDOM.setActiveNavs();
+}
 
 if (document.URL.includes("/quiz/question"))  {
   QuestionForm();
@@ -31,9 +34,9 @@ if (document.URL === "http://127.0.0.1:3000/quiz") {
   createQuiz();
 }
 
-if (document.URL.includes("/tablero/curso")) {
-  courseModal();
-  join();
+if (document.URL.includes("/course")) {
+  /* courseModal();
+  join(); */
 }
 
 if (document.URL.includes("/quiz/edit")) {
@@ -48,4 +51,8 @@ if (document.URL.includes("/quiz/6057f019999cf815745702a4")) {
 
 if (document.URL.includes('/quiz/view')) {
   showResults();
+}
+
+if (document.URL.includes('/courses')) {
+  Courses();
 }

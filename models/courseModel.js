@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const crypto = require('crypto');
 
 const courseSchema = new mongoose.Schema({
   nombre: {
@@ -37,5 +38,7 @@ const courseSchema = new mongoose.Schema({
   fechaFinalizacion: Date
 });
 
+// Document Middleware
+
 const Course = mongoose.model("Course", courseSchema, "Cursos");
-module.exports = Course;
+module.exports = Course

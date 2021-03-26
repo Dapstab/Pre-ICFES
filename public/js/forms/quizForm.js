@@ -5,19 +5,22 @@ export const createQuiz = function () {
   const quizForm = document.getElementById("form__quiz");
   quizForm.addEventListener("submit", async function (e) {
     e.preventDefault();
+    e.stopImmediatePropagation();
     const nombre = document.getElementById("name").value;
     const asignatura = document.getElementById("subject").value;
     const tiempo = document.getElementById("time").value;
     const fechaEntrega = document.getElementById("due-date").value;
     const descripcion = document.getElementById("description").value;
+    // console.log(localStorage.getItem('currentCourse'));
     const quizId = await Quiz.sendDataToQuiz(
       nombre,
       asignatura,
       tiempo,
       fechaEntrega,
-      descripcion
+      descripcion,
+      localStorage.getItem('currentCourse')
     );
-    window.localStorage.setItem("quiz", quizId);
+    localStorage.setItem("quiz", quizId);
     if (quizId){
         window.setTimeout(() => {
         location.assign("http://127.0.0.1:3000/quiz/question");

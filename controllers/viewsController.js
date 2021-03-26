@@ -15,6 +15,12 @@ module.exports = class ViewsController {
     }
   });
 
+  static getDashboard = (req, res, next) => {
+    res.status(200).render("dashboard", {
+      title: "Tablero",
+    });
+  };
+
   static getSignupForm = (req, res) => {
     res.status(200).render("homePage/signup", {
       title: "Regístrate",
@@ -84,17 +90,13 @@ module.exports = class ViewsController {
     });
   });
   
-  static getDashboard = (req, res, next) => {
-    res.status(200).render("dashboard", {
-      title: "Tablero",
-    });
-  };
+  
 
   static getCourses = catchAsync(async (req, res, next) => {
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(req.user.id).populate({ path: 'cursos' });
     res.status(200).render("courses/courses", {
       title: "Mis Cursos",
-      cursos: user.cursos
+      courses: user.cursos
     });
   });
 

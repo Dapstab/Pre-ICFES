@@ -1,0 +1,7 @@
+extends ../dashboard
+//-each course in user.courses
+block contentDashboard 
+    ul.courses
+        each course, i in courses 
+            li.course
+                a(href=`course/${course._id}`, data-courseid=course._id)= course.nombre

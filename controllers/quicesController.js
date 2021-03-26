@@ -11,13 +11,14 @@ module.exports = class QuizController {
   static getAllQuizs = Factory.getAll(Quiz);
   
   static createQuiz = catchAsync ( async (req, res, next) => {
-    const course = await Course.findById(req.body.courseId);
-    delete req.body.courseId;
+    const course = await Course.findById(req.body.cursoId);
+    delete req.body.cursoId;
     const quiz = await Quiz.create(req.body);
     course.quices.push(quiz);
     await course.save();
     res.status(200).json({
-      status: "success"
+      status: "success",
+      newDoc: quiz
     });
   });
 
@@ -26,7 +27,6 @@ module.exports = class QuizController {
     next();
   };
   static endQuiz = catchAsync(async (req, res, next) => {
-    console.log(req.body);
     const quiz = await Quiz.findById(req.params.id);
     quiz.preguntas = req.body;
     await quiz.save({ validateBeforeSave: false });
