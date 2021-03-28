@@ -59019,94 +59019,124 @@ exports.solveQuiz = void 0;
 
 var _quiz = require("../axios/quiz");
 
-var questions = document.querySelector('.questions');
+// import { timer, timeSeconds } from "../utils/timer";
+var questions = document.querySelector(".questions");
+var stopWatch = document.querySelector(".timer");
 
 var solveQuiz = function solveQuiz() {
   var answers = [];
+  var timeSeconds = stopWatch.dataset.time * 60;
   var quizquestions = JSON.parse(questions.dataset.quizquestions);
+  timer();
   getAnswers();
   sendAnswers();
 
+  function timer() {
+    if (stopWatch) {
+      function updateCountdown() {
+        var hours, minutes, seconds;
+
+        if (timeSeconds >= 3600) {
+          hours = Math.floor(timeSeconds / 3600);
+          minutes = Math.floor(timeSeconds % 3600 / 60);
+          seconds = Math.floor(timeSeconds % 3600 % 60);
+        } else {
+          minutes = Math.floor(timeSeconds / 60);
+          seconds = timeSeconds % 60;
+        }
+
+        minutes = minutes < 10 ? "0".concat(minutes) : minutes;
+        seconds = seconds < 10 ? "0".concat(seconds) : seconds;
+        stopWatch.textContent = hours ? "".concat(hours, ":").concat(minutes, ":").concat(seconds) : "".concat(minutes, ":").concat(seconds);
+        timeSeconds--;
+
+        if (timeSeconds === 0) {
+          stopWatch.textContent = "00:00:00";
+          finishQuiz();
+        }
+      }
+
+      if (timeSeconds > 0) {
+        setInterval(updateCountdown, 1000);
+      }
+    }
+  }
+
   function getAnswers() {
-    questions.addEventListener('click', function (e) {
-      var optionInput = e.target.closest('.option-input');
+    questions.addEventListener("click", function (e) {
+      var optionInput = e.target.closest(".option-input");
       if (!optionInput) return;
       var optionsContainer = optionInput.parentNode.parentNode;
       var indexq = optionsContainer.dataset.indexq;
       var indexo = optionInput.dataset.indexo;
       answers[indexq] = Number(indexo);
-      localStorage.setItem('answers', JSON.stringify(answers));
+      localStorage.setItem("answers", JSON.stringify(answers));
     });
   }
 
-  function checkAnswers() {
+  function finishQuiz() {
     var correct = 0;
-    this.quizquestions.forEach(pregunta, function (i) {
+    quizquestions.forEach(function (pregunta, i) {
       return pregunta.respuesta === answers[i] ? correct++ : correct;
-    });
-    return correct;
+    }); //localStorage.setItem('result', `${this.checkAnswers()} / ${this.quizquestions.length}`);
+
+    var grade = 5 * correct / quizquestions.length;
+
+    _quiz.Quiz.updateGrade(grade);
+
+    localStorage.setItem("result", "".concat(correct, " / ").concat(quizquestions.length));
+    /* window.setTimeout(() => {
+                    location.assign('/quiz/view');
+                  }, 1000); */
   }
 
   function sendAnswers() {
-    questions.addEventListener('submit', function (e) {
+    questions.addEventListener("submit", function (e) {
       e.preventDefault();
-      console.log(quizquestions);
-      var correct = 0;
-      quizquestions.forEach(function (pregunta, i) {
-        return pregunta.respuesta === answers[i] ? correct++ : correct;
-      }); //localStorage.setItem('result', `${this.checkAnswers()} / ${this.quizquestions.length}`);
-
-      var grade = 5 * correct / quizquestions.length;
-
-      _quiz.Quiz.updateGrade(grade);
-
-      localStorage.setItem('result', "".concat(correct, " / ").concat(quizquestions.length));
-      /* window.setTimeout(() => {
-          location.assign('/quiz/view');
-        }, 1000); */
+      finishQuiz();
     });
   }
 };
 /* 
 export class SolveQuiz {
-   static quizquestions = JSON.parse(questions.dataset.quizquestions);
-   static getAnswers = function() {
-       questions.addEventListener('click', e => {
-           const optionInput = e.target.closest('.option-input');
-           const optionsContainer = optionInput.parentNode.parentNode;
-           const { indexq } = optionsContainer.dataset;
-           if (!optionInput) return
-           const { indexo } = optionInput.dataset;
-           answers[indexq] = Number(indexo);
-           console.log(this.quizquestions);
-       });
-       localStorage.setItem('answers', JSON.stringify(answers));
-   }
-   
-   static checkAnswers = function() {
-       let correct = 0;
-       this.quizquestions.forEach( pregunta, i => pregunta.respuesta === answers[i] ? correct++ : correct);
-       return correct;
-   }
+    static quizquestions = JSON.parse(questions.dataset.quizquestions);
+    static getAnswers = function() {
+        questions.addEventListener('click', e => {
+            const optionInput = e.target.closest('.option-input');
+            const optionsContainer = optionInput.parentNode.parentNode;
+            const { indexq } = optionsContainer.dataset;
+            if (!optionInput) return
+            const { indexo } = optionInput.dataset;
+            answers[indexq] = Number(indexo);
+            console.log(this.quizquestions);
+        });
+        localStorage.setItem('answers', JSON.stringify(answers));
+    }
+    
+    static checkAnswers = function() {
+        let correct = 0;
+        this.quizquestions.forEach( pregunta, i => pregunta.respuesta === answers[i] ? correct++ : correct);
+        return correct;
+    }
 
-   static sendAnswers = function() {  
-       questions.addEventListener('submit', function(e) {
-           e.preventDefault();
-           console.log(questions)
-           console.log(JSON.parse(questions.dataset.quizquestions))
-           console.log(this.quizquestions); 
-           let correct = 0;
-           this.quizquestions.forEach( pregunta, i => pregunta.respuesta === answers[i] ? correct++ : correct);
-           //localStorage.setItem('result', `${this.checkAnswers()} / ${this.quizquestions.length}`);
-           localStorage.setItem('result', `${correct} / ${this.quizquestions.length}`);
-            window.setTimeout(() => {
-               location.assign('127.0.0.1:3000/quiz/view');
-             }, 1000); 
+    static sendAnswers = function() {  
+        questions.addEventListener('submit', function(e) {
+            e.preventDefault();
+            console.log(questions)
+            console.log(JSON.parse(questions.dataset.quizquestions))
+            console.log(this.quizquestions); 
+            let correct = 0;
+            this.quizquestions.forEach( pregunta, i => pregunta.respuesta === answers[i] ? correct++ : correct);
+            //localStorage.setItem('result', `${this.checkAnswers()} / ${this.quizquestions.length}`);
+            localStorage.setItem('result', `${correct} / ${this.quizquestions.length}`);
+             window.setTimeout(() => {
+                location.assign('127.0.0.1:3000/quiz/view');
+              }, 1000); 
 
-       })
-   }
+        })
+    }
 
-   
+    
 } */
 
 
@@ -59136,16 +59166,47 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Courses = void 0;
 
+var _course = require("../axios/course");
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 var Courses = function Courses() {
   var courses = document.querySelector('.courses');
   courses.addEventListener('click', function (e) {
     e.stopImmediatePropagation();
     localStorage.setItem('currentCourse', e.target.dataset.courseid);
   });
+  var joinCourse = document.querySelector('.join-course');
+  joinCourse.addEventListener('submit', /*#__PURE__*/function () {
+    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {
+      var courseCode;
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              e.preventDefault();
+              courseCode = document.getElementById('course-code').value;
+              _context.next = 4;
+              return _course.Course.joinCourse(courseCode);
+
+            case 4:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }));
+
+    return function (_x) {
+      return _ref.apply(this, arguments);
+    };
+  }());
 };
 
 exports.Courses = Courses;
-},{}],"index.js":[function(require,module,exports) {
+},{"../axios/course":"axios/course.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 require("core-js/modules/es6.array.copy-within.js");
@@ -59467,7 +59528,7 @@ if (document.URL.includes("/quiz/edit")) {
   (0, _editQuiz.editQuiz)();
 }
 
-if (document.URL.includes("/quiz/6057f019999cf815745702a4")) {
+if (document.URL.includes("/quiz/605fc7dd15e80735002afbd7")) {
   /* SolveQuiz.getAnswers();
   SolveQuiz.sendAnswers(); */
   (0, _solveQuiz.solveQuiz)();
@@ -59508,7 +59569,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49824" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53694" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

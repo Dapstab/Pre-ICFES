@@ -35,9 +35,10 @@ module.exports = class ViewsController {
   });
 
   static solveQuiz = catchAsync(async (req, res, next) => {
+    console.log(req.body.solved);
     if (!req.body.solved) {
       const quiz = await Quiz.findById(req.params.quizId);
-      res.status(200).render("quizzes/quiz", {
+      return res.status(200).render("quizzes/quiz", {
         title: "Quices",
         quiz,
       });

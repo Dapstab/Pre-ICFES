@@ -31,7 +31,8 @@ module.exports = class CourseController {
             course.estudiantes.push(req.user.id);
             await course.save();
             return res.status(200).json({
-                res: 'Se actualizó exitosamente el curso'
+                status: 'success',
+                message: 'Se actualizó exitosamente el curso'
             });
         }
         return new AppError('Código Inválido.', 401);

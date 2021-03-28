@@ -43,7 +43,7 @@ if (document.URL.includes("/quiz/edit")) {
   editQuiz();
 }
 
-if (document.URL.includes("/quiz/6057f019999cf815745702a4")) {
+if (document.URL.includes("/quiz/605fc7dd15e80735002afbd7")) {
   /* SolveQuiz.getAnswers();
   SolveQuiz.sendAnswers(); */
   solveQuiz();

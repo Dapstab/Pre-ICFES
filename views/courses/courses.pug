@@ -5,3 +5,15 @@ block contentDashboard
         each course, i in courses 
             li.course
                 a(href=`course/${course._id}`, data-courseid=course._id)= course.nombre
+    if user.role="student"
+        //-button Unirse a Curso
+        //-form.modal.join-course.hidden
+        form.join-course
+            label(for="course-code") Código del Curso
+            input(type="text" id="course-code")
+            button Unirse
+    else
+        a.create-course Crear Curso
+        
+        
+        

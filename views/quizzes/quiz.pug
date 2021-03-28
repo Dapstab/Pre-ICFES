@@ -13,6 +13,7 @@ block append head
     <script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});</script>
 
 block content
+    .timer(data-time=quiz.tiempo)
     form.questions(data-quizquestions=quiz.preguntas)
         each question, i in quiz.preguntas
             +questionItem(question, i)
