@@ -2,8 +2,8 @@ extends ../utils/metadata
 
 block content
     section.section__quiz.main-grid
-        h2.title__session Crear Quiz
         form#form__quiz 
+            h2.title__session Crear Quiz
             .form__group    
                 label(for='name') Nombre
                 input#name(type='text' name='name' min=3 max=20)
@@ -29,6 +29,6 @@ block content
                 br
                 textarea#description(type='text')
                 
-            button.btn.btn__createQuiz(type="submit") Crear Quiz
+            button.btn.btn-small.btn__createQuiz(type="submit") Crear Quiz
         
     script(src='/js/bundle/bundle.js')

@@ -1,5 +1,5 @@
 .sidebar {
-  width: 345px;
+  width: 300px;
   position: fixed;
   left: 0; // Ocultamos el header gracias a esta propiedad y el background-color
   top: 0;
@@ -35,7 +35,7 @@
   }
 
   // & span {
-  //   margin-left: 1rem; // Para compensar que con el li no puedo hacer margin-left o right
+  //   margin-left: 1rem; // Para ccompensar que con el li no puedo hacer margin-left o right
   // }
 
   & a {
@@ -105,11 +105,15 @@
 .main-content {
   transition: margin-left 300ms;
   // Se combina con la propieda de arriba #nav-toggle:checked ~ .main-content para lograr un efecto mas suave
-  margin-left: 34.5rem;
+  margin-left: 32rem;
 }
 
 .main {
  margin-top: 85px;
-  padding: 2rem 1.5rem;
+  padding: 2rem 1rem;
   min-height: calc(100vh- 90px);
+}
+ 
+.btn--logout {
+  background-image: none;
 }

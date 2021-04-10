@@ -6,38 +6,31 @@ mixin getOptions(opt)
         textarea.options(name=`option-${opt}`, id=`option-${opt}`, placeholder="Escribe tu respuesta aquí.")
         i.fas.fa-image
 
+
 block content
     form#form__question
-        fieldset.stepOne(name='part-1')
-            legend Parte 1 / 2
-        
+        fieldset.data
             label.label-subject(for='subject') Asignatura
-            .select
-                select#subject.form__select(name="category")
-                    each field in asignaturas
-                        option(value=`${field}`)=field
+            select#subject.form__select(name="category")
+                each field in asignaturas
+                    option(value=`${field}`)=field
                 
             label.label-topics(for='topics' list='topics') Temas
-            .select
-                select#topics
-                ul.topics
+            select#topics
+            ul.topics
+
             label.label-subtopics(for='subtopics' list='subtopics') Subtemas
-            .select
-                select#subtopics
-                ul.subtopics
+            select#subtopics
+            ul.subtopics
+
             label.label-difficulty(for='difficulty') Dificultad 
-            .select
-                select#difficulty
-                    each difficulty in [1,2,3,4,5]
-                        option(value=difficulty)=difficulty
-            button.nextBtn(type='button') Siguiente
-        fieldset.stepTwo.hidden(name='part-2')
-            legend Parte 2 / 2
+            select#difficulty
+                each difficulty in [1,2,3,4,5]
+                    option(value=difficulty)=difficulty
+        fieldset.question
+            
             label(type='text' for="question") Pregunta
             textarea#question( name="question" placeholder="Escribe tu pregunta aquí.")
             each letter in [0,1,2,3]
                 +getOptions(letter)
-            button.prevBtn(type='button') Atrás
-            button Terminar
-
-    script(src='/js/bundle/bundle.js')
+            button.btn.btn-small Terminar

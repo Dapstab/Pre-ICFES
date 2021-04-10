@@ -1,17 +1,30 @@
 input {
-  margin: 0 1em 1em 1em;
-  padding: .5em 1.1em;
+  display: block;
+  padding: .4rem 1.1rem;
   font-size: 1.3rem;
-  min-width: 20rem;
-  max-width: 40rem;
-  min-height: 3rem;
+  width: 100%;
+  min-height: 2.5rem;
+}
+
+label {
+  display: inline-block;
+  margin: 1.2rem 0;
 }
 
 textarea {
-  min-height: 3em;
+  display: block;
+  color: $color-dark-dashboard;
+  font-family: inherit;
+  font-size: 1.5rem;
+  min-height: 7rem;
   overflow: hidden;
   resize: none;
-  min-width: 35rem;
-  overflow: hidden;
-  resize: none;
+  width: 70%;
+  margin-bottom: 1rem;
+  // min-width: 35rem;
 }
+
+.option {
+  display: flex;
+}
+

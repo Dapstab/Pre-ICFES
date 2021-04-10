@@ -1,0 +1,36 @@
+.questions {
+    width: 100%;
+    background-color: blue;
+    width: 40rem;
+}
+
+li {
+    display: flex; 
+    justify-content: space-between;
+    width: 100%;
+
+}
+
+.container {
+    //display: flex;
+    width: 100%;
+    background-color: greenyellow;
+}
+
+.question-answer {
+    word-wrap: break-word;
+    max-width: 35rem;
+}
+
+.option-input {
+    width: 20px;
+}
+
+.hello {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(100px, 300px) minmax(0, 1fr);
+}
+
+.hello >* {
+    grid-column: 1;
+}

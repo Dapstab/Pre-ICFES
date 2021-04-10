@@ -1,25 +1,21 @@
-
-  .stepOne, .stepTwo {
+  body {
+    background: rgba(240, 225, 235, 0.6);
+  }  
+  #form__question {
+    background: rgba(240, 225, 235, 0.6);
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    width: 100rem;
   }
-  
-  .hidden {
-    display: none;
+
+  .answers {
+    width: 25px;
+    margin-right: 1rem;    
   }
-  
-  .label-subject {
-    margin-top: 1.2em;
-  }
+  // .data {
+  //   margin-right: 10rem;
+  // }
 
   .question {
-    width: 400px;
-  }
-  .options {
-    width: 250px;
-  }
-
-  li[class^="topic-"], li[class^="subtopic-"] {
-    border: 2px solid gray;
-    display: inline-block;
+    width: 70%;
   }

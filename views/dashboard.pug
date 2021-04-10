@@ -22,12 +22,18 @@ block content
                 +navItem('/courses', 'Mis Cursos', 'book')
                 +navItem('/notas', 'Mis Notas', 'clipboard-list')
     
+                //- li.sidebar__menu-item
+                //-     a.sidebar__menu-link(href="#")
+                //-         //- span.las.la-clipboard-list  
+                //-         i.fas.fa-sign-out-alt
+                //-         span 
+                //-             button.btn--logout.sidebar__menu--logout Cerrar Sesión
                 li.sidebar__menu-item
                     a.sidebar__menu-link(href="#")
                         //- span.las.la-clipboard-list  
                         i.fas.fa-sign-out-alt
-                        span 
-                            button.sidebar__menu--logout Cerrar Sesión
+                        span.btn.btn--logout.sidebar__menu--logout Cerrar Sesión
+                         
     .main-content
         // HEADER
         include utils/_header

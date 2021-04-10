@@ -5,9 +5,9 @@
   padding: 1rem 1.5rem;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); // Un uso bacano de las sombras para separar las secciones.
   position: fixed; /* Cuando colocamos esto es como si hubieramos colodao un position absolute, quitamos todas las dimensiones de width */
-  left: 345px; /* Posicionamos el header justo cuando tenerminda el sidebar */
+  left: 300px; /* Posicionamos el header justo cuando tenerminda el sidebar */
   width: calc(
-    100% - 345px
+    100% - 300px
   ); // 100% que es todo el width del viewPort menos los 34.5rem del sidebar nos da el width del header. Es necesario especificarlo debido a que colocamos position: fixed; luego las medidas se "pierden".
   top: 0;
   z-index: 100;
