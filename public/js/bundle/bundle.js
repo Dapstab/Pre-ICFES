@@ -36390,7 +36390,7 @@ module.exports = {
   "_args": [
     [
       "elliptic@6.5.4",
-      "C:\\Users\\gordo\\Desktop\\Aguilera 2.0\\Pre-ICFES"
+      "E:\\Desktop\\Prubas Icfes v.3\\Pre-ICFES"
     ]
   ],
   "_development": true,
@@ -36416,7 +36416,7 @@ module.exports = {
   ],
   "_resolved": "https://registry.npmjs.org/elliptic/-/elliptic-6.5.4.tgz",
   "_spec": "6.5.4",
-  "_where": "C:\\Users\\gordo\\Desktop\\Aguilera 2.0\\Pre-ICFES",
+  "_where": "E:\\Desktop\\Prubas Icfes v.3\\Pre-ICFES",
   "author": {
     "name": "Fedor Indutny",
     "email": "fedor@indutny.com"
@@ -59591,7 +59591,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61863" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64496" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

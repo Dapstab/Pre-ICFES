@@ -4,20 +4,21 @@ const express = require("express");
 
 const router = express.Router();
 
-router.post("/registro", AuthController.signup);
-router.post("/iniciarSesion", AuthController.login);
-router.post("/olvidarClave", AuthController.forgotPassword);
-router.get("/cerrarSesion", AuthController.logout);
-router.patch("/reestablecerClave/:token", AuthController.resetPassword);
+router.post("/login", AuthController.signup);
+router.post("/signup", AuthController.login);
+router.get("/logout", AuthController.logout);
 
-//router.use(AuthController.protect);
+router.post("/forgotPassword", AuthController.forgotPassword);
+router.patch("/resetPassword/:token", AuthController.resetPassword);
 
-router.patch("/actualizarMiClave", AuthController.updatePassword);
-router.get("/yo", UsersController.getMe, UsersController.getUser);
-router.patch("/actualizarYo", UsersController.updateMe);
-router.patch("/eliminarYo", UsersController.deleteMe);
+router.use(AuthController.protect);
 
-//router.use(AuthController.restrictTo("admin"));
+router.patch("/updateMyPassword", AuthController.updatePassword);
+router.get("/me", UsersController.getMe, UsersController.getUser);
+router.patch("/updateMe", UsersController.updateMe);
+router.patch("/deleteMe", UsersController.deleteMe);
+
+// router.use(AuthController.restrictTo("admin"));
 
 router
   .route("/")

@@ -67,7 +67,7 @@ const userSchema = new mongoose.Schema(
       {
         type: mongoose.Schema.ObjectId,
         ref: "Course",
-      }
+      },
     ],
     activo: {
       default: "true",
@@ -79,8 +79,8 @@ const userSchema = new mongoose.Schema(
     passwordResetToken: String,
     passwordResetExpires: Date,
   },
-  { toJSON: { virtuals: true }, toObject: { virtuals: true } }, 
-  { discriminatorKey: 'role' }
+  { toJSON: { virtuals: true }, toObject: { virtuals: true } },
+  { discriminatorKey: "role" }
 );
 
 // Document middlewares:
@@ -99,7 +99,7 @@ userSchema.pre("save", function (next) {
 });
 
 userSchema.pre(/^find/, function (next) {
-  this.find({ active: { $ne: false } });
+  this.find({ activo: { $ne: false } });
   next();
 });
 
@@ -115,7 +115,6 @@ userSchema.virtual("createdCourses", {
   localField: "_id",
   foreignField: "profesor",
 });
-
 
 userSchema.pre(/^find/, function (next) {
   this.find({ activo: { $ne: false } });

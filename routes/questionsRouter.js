@@ -6,7 +6,7 @@ const { Question } = require("../models/questionModel");
 const router = express.Router();
 
 router.use(AuthController.protect);
-router.use(AuthController.restrictTo('admin', 'contribuidor'));
+router.use(AuthController.restrictTo("admin", "contribuidor"));
 
 router
   .route("/")
@@ -18,6 +18,6 @@ router
   .patch(QuestionController.updateQuestion)
   .delete(QuestionController.deleteQuestion);
 router.post("/quiz", QuestionController.addQuestion);
-router.post("/temas", QuestionController.getData);
-router.post("/subtemas", QuestionController.getData);
+router.post("/topics", QuestionController.getData);
+router.post("/subtopics", QuestionController.getData);
 module.exports = router;

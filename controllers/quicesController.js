@@ -11,12 +11,8 @@ module.exports = class QuizController {
   static getAllQuizs = Factory.getAll(Quiz);
   static createQuiz = Factory.createOne(Quiz);
 
-  static addUploadedBy = (req, res, next) => {
-    req.body.creadoPor = req.user.nombre;
-    next();
-  };
   static endQuiz = catchAsync(async (req, res, next) => {
-    const quiz = await Quiz.findById(req.params.id);
+    const quiz = await Quiz.findById(req.params.quizId);
     quiz.preguntas = req.body;
     await quiz.save({ validateBeforeSave: false });
     res.status(200).json({
@@ -39,8 +35,28 @@ module.exports = class QuizController {
     next();
   });
 
-  static setCourseId = (req, res, next) => {
-    req.body.course = req.params.courseId;
+  // Para crear el quiz
+  static addUploadedBy = (req, res, next) => {
+    req.body.creadoPor = req.user.nombre;
     next();
   };
+
+  static setCourseId = (req, res, next) => {
+    req.body.curso = req.params.courseId;
+    next();
+  };
+
+  // Para encontrar todos los quices de determinado curso
+  static getAllQuizzes = catchAsync(async (req, res, next) => {
+    let filter = {};
+    if (req.params.courseId) filter = { course: req.params.courseId };
+
+    const quizzes = await Quiz.find(filter);
+
+    res.status(200).json({
+      status: "success",
+      results: quizzes.length,
+      quizzes,
+    });
+  });
 };

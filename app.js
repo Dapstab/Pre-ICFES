@@ -54,10 +54,10 @@ app.use((req, res, next) => {
 
 // Rutas:
 app.use("/", viewRouter);
-app.use("/api/v1/pregunta", questionRouter);
-app.use("/api/v1/usuarios", userRouter);
-app.use("/api/v1/quiz", quizRouter);
-app.use("/api/v1/curso", courseRouter);
+app.use("/api/v1/questions", questionRouter);
+app.use("/api/v1/users", userRouter);
+app.use("/api/v1/quizzes", quizRouter);
+app.use("/api/v1/courses", courseRouter);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`La página ${req.originalUrl} no se ha encontrado`, 404));
