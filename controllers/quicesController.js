@@ -38,4 +38,9 @@ module.exports = class QuizController {
     req.body.solved = user ? true : false; */
     next();
   });
+
+  static setCourseId = (req, res, next) => {
+    req.body.course = req.params.courseId;
+    next();
+  };
 };

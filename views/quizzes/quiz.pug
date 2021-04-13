@@ -1,26 +1,28 @@
 extends ../dashboard
 
 mixin questionItem(question, name)
-    .container
-        span=name+1
-        p= question.pregunta
+    .question-container
+        span.number=`${name+1})`
+        p.question= question.pregunta
     ul.optionsContainer(data-indexQ=`${name}`)
         each option, i in question.opciones 
-            li 
+            li.option-list-item
+                input.option-input(type="radio", name=`${name}` data-indexO=`${i}`)
                 label.question-label(for=`option-${i}`)
                     p.question-answer=option
-                input.option-input(type="radio", id=`option-${i}` name=`${name}` data-indexO=`${i}`)
+                
                 
 
-block append head 
+block append head
     <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});</script>
 
 block contentDashboard
     .timer(data-time=quiz.tiempo)
-    .hello
-        form.questions(data-quizquestions=quiz.preguntas)
-            each question, i in quiz.preguntas
-                
-                +questionItem(question, i)
-            button.solveQuizBtn Finalizar Quiz
+    h2= quiz.nombre
+    p= quiz.descripcion
+    form.questions
+        each question, i in quiz.preguntas
+            
+            +questionItem(question, i)
+        button.solveQuizBtn Finalizar Quiz

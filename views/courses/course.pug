@@ -1,5 +1,8 @@
 extends ../dashboard
 block contentDashboard
     h1 Hello
-    a.btn(href=`/quiz`) Agregar Quiz
-    .modal
+    each quiz in course.quices
+        ul.quizzes-container
+            li.quiz-item
+                a.quiz-link(href="quiz/view")= quiz.nombre
+    

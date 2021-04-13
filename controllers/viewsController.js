@@ -35,7 +35,6 @@ module.exports = class ViewsController {
   });
 
   static solveQuiz = catchAsync(async (req, res, next) => {
-    console.log(req.body.solved);
     if (!req.body.solved) {
       const quiz = await Quiz.findById(req.params.quizId);
       return res.status(200).render("quizzes/quiz", {
@@ -81,8 +80,6 @@ module.exports = class ViewsController {
   //   });
   // };
   // Ir a la página del curso en particular 
-  // /course?='matemáticas'
-  // /matemáticas
   static getCourse = catchAsync(async (req, res, next) => {
     const course = await Course.findById(req.params.courseId);
     res.status(200).render("courses/course", {

@@ -3,44 +3,13 @@ import { Quiz } from "../axios/quiz";
 const questions = document.querySelector(".questions");
 const stopWatch = document.querySelector(".timer");
 
-export const solveQuiz = () => {
+export const solveQuiz = async () => {
   let answers = [];
-  let timeSeconds = stopWatch.dataset.time * 60;
-  const quizquestions = JSON.parse(questions.dataset.quizquestions);
-
-  timer();
+  const quizId = document.URL.split("/").slice(-1)[0];
+  const quizquestions = (await Quiz.getQuiz(quizId)).preguntas;
   getAnswers();
   sendAnswers();
 
-  function timer() {
-    if (stopWatch) {
-      function updateCountdown() {
-        let hours, minutes, seconds;
-        if (timeSeconds >= 3600) {
-          hours = Math.floor(timeSeconds / 3600);
-          minutes = Math.floor((timeSeconds % 3600) / 60);
-          seconds = Math.floor((timeSeconds % 3600) % 60);
-        } else {
-          minutes = Math.floor(timeSeconds / 60);
-          seconds = timeSeconds % 60;
-        }
-        minutes = minutes < 10 ? `0${minutes}` : minutes;
-        seconds = seconds < 10 ? `0${seconds}` : seconds;
-
-        stopWatch.textContent = hours
-          ? `${hours}:${minutes}:${seconds}`
-          : `${minutes}:${seconds}`;
-        timeSeconds--;
-
-        if (timeSeconds === 0) {
-          stopWatch.textContent = "00:00:00";
-          finishQuiz();
-        }
-      }
-      if (timeSeconds > 0) {
-          setInterval(updateCountdown, 1000);
-        }
-  }}
   function getAnswers() {
     questions.addEventListener("click", (e) => {
       const optionInput = e.target.closest(".option-input");
@@ -62,9 +31,9 @@ export const solveQuiz = () => {
     const grade = (5 * correct) / quizquestions.length;
     Quiz.updateGrade(grade);
     localStorage.setItem("result", `${correct} / ${quizquestions.length}`);
-    /* window.setTimeout(() => {
-                    location.assign('/quiz/view');
-                  }, 1000); */
+    window.setTimeout(() => {
+      location.assign("/quiz/view");
+    }, 1000);
   }
 
   function sendAnswers() {

@@ -9,7 +9,11 @@ const professorSchema = new mongoose.Schema({
     materias: {
         type: String
     }
-}, { discriminatorKey: 'role' });
+},  {
+    discriminatorKey: "role",
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  });
 
 const Professor = User.discriminator("Professor", professorSchema);
 

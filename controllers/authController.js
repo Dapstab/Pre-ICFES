@@ -47,7 +47,6 @@ module.exports = class Autenticacion {
         grado: req.body.grado,
         jornada: req.body.jornada,
       });
-      console.log(await Student.find());
     } else {
       return next(new AppError("Las contraseñas no coinciden", 400));
     }

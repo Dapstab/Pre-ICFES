@@ -44,6 +44,11 @@ const quizSchema = new mongoose.Schema(
     descripcion: {
       type: String,
     },
+    curso: {
+      type: mongoose.Schema.ObjectId,
+      ref: "Course",
+      required: [true, "Todo quiz debe pertenecer a un curso"],
+    }
   },
   {
     toJSON: { virtuals: true },

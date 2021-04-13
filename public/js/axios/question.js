@@ -32,7 +32,6 @@ export class Question {
           data.push(question);
         }
         this.questions.push(question);
-        console.log(data);
         localStorage.setItem('questions', JSON.stringify(data ? data : this.questions));
         window.setTimeout(() => {
           location.assign(`/quiz/edit`);

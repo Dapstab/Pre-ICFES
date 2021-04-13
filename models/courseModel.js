@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
-const crypto = require('crypto');
 
 const courseSchema = new mongoose.Schema({
   nombre: {
     type: String,
     required: [true, "Las calificaciones deben pertenecerle a un quiz"],
   },
+  slug: String,
   profesor: {
     type: mongoose.Schema.ObjectId,
     ref: "Professor",
@@ -36,9 +36,32 @@ const courseSchema = new mongoose.Schema({
     type: Number
   },
   fechaFinalizacion: Date
-});
+}, { toJSON: { virtuals: true }, toObject: { virtuals: true } });
+
+
+// Indexes
+courseSchema.index({ professor: 1, name: 1 }, { unique: true }); // Un DETERMINADO usuario no puede crear dos cursos con el mismo nombre
 
 // Document Middleware
+courseSchema.pre("save", function (next) {
+  this.slug = slugify(this.name, { lower: true });
+  next();
+});
+
+courseSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "students",
+    select: "name grades", // No se puede excluir a __t, este populate es para los profesores
+  });
+  next();
+});
+
+// Virtual Populate
+courseSchema.virtual("quizzes", {
+  ref: "QuizMerge",
+  localField: "_id",
+  foreignField: "course",
+});
 
 const Course = mongoose.model("Course", courseSchema, "Cursos");
 module.exports = Course

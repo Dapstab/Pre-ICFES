@@ -60,4 +60,12 @@ export class Quiz {
       }
     });
   }
+
+  static getQuiz = async function(id) {
+    const res = await axios({
+      method: 'GET',
+      url: `http://127.0.0.1:3000/api/v1/quiz/${id}`,
+    })
+    return res.data.doc;
+  }
 }

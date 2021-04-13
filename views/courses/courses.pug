@@ -1,19 +1,21 @@
 extends ../dashboard
 //-each course in user.courses
-block contentDashboard 
-    ul.courses
-        each course, i in courses 
-            li.course
-                a(href=`course/${course._id}`, data-courseid=course._id)= course.nombre
-    if user.role="student"
-        //-button Unirse a Curso
-        //-form.modal.join-course.hidden
-        form.join-course
-            label(for="course-code") Código del Curso
-            input(type="text" id="course-code")
-            button.btn.btn-small Unirse
-    else
-        a.btn-small.create-course Crear Curso
+block contentDashboard
+    .courses-container
+        ul.courses
+            if user.role="student"
+                //-button Unirse a Curso
+                //-form.modal.join-course.hidden
+                form.join-course
+                    label(for="course-code") Código del Curso
+                    input(type="text" id="course-code")
+                    button.btn.btn-small.join-course Unirse
+            else
+                a.btn-small.create-course(href="/course") Crear Curso
+            
+            each course, i in courses 
+                li.course
+                    a.course-link(href=`course/${course._id}`, data-courseid=course._id)= course.nombre
         
         
         

@@ -99,16 +99,28 @@ userSchema.pre("save", function (next) {
 });
 
 userSchema.pre(/^find/, function (next) {
-  this.find({ activo: { $ne: false } });
+  this.find({ active: { $ne: false } });
   next();
 });
 
-// Propiedades virtuales segun el rol
-/* userSchema.pre("save", async function (next) {
-  if (this.rol === "estudiante") {
-    this.grado = "tercero";
-  }
-}); */
+// Virtual Populate
+userSchema.virtual("courses", {
+  ref: "Course",
+  localField: "_id",
+  foreignField: "estudiantes",
+});
+
+userSchema.virtual("createdCourses", {
+  ref: "Course",
+  localField: "_id",
+  foreignField: "profesor",
+});
+
+
+userSchema.pre(/^find/, function (next) {
+  this.find({ activo: { $ne: false } });
+  next();
+});
 
 // Metodos de autenticación
 userSchema.methods.correctPasswords = async (plainText, contraseña) => {

@@ -8504,21 +8504,20 @@ _defineProperty(Login, "login", /*#__PURE__*/function () {
               }, 1500);
             }
 
-            console.log(res);
-            _context.next = 11;
+            _context.next = 10;
             break;
 
-          case 8:
-            _context.prev = 8;
+          case 7:
+            _context.prev = 7;
             _context.t0 = _context["catch"](0);
             console.log("Hubo un error");
 
-          case 11:
+          case 10:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 8]]);
+    }, _callee, null, [[0, 7]]);
   }));
 
   return function (_x, _x2) {
@@ -8914,7 +8913,6 @@ var Question = /*#__PURE__*/function () {
                   }
 
                   this.questions.push(question);
-                  console.log(data);
                   localStorage.setItem('questions', JSON.stringify(data ? data : this.questions));
                   window.setTimeout(function () {
                     location.assign("/quiz/edit");
@@ -9193,6 +9191,36 @@ _defineProperty(Quiz, "updateGrade", /*#__PURE__*/function () {
 
   return function (_x8) {
     return _ref3.apply(this, arguments);
+  };
+}());
+
+_defineProperty(Quiz, "getQuiz", /*#__PURE__*/function () {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(id) {
+    var res;
+    return regeneratorRuntime.wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            _context4.next = 2;
+            return (0, _axios.default)({
+              method: 'GET',
+              url: "http://127.0.0.1:3000/api/v1/quiz/".concat(id)
+            });
+
+          case 2:
+            res = _context4.sent;
+            return _context4.abrupt("return", res.data.doc);
+
+          case 4:
+          case "end":
+            return _context4.stop();
+        }
+      }
+    }, _callee4);
+  }));
+
+  return function (_x9) {
+    return _ref4.apply(this, arguments);
   };
 }());
 },{"axios":"../../node_modules/axios/index.js"}],"forms/quizForm.js":[function(require,module,exports) {
@@ -59019,84 +59047,78 @@ exports.solveQuiz = void 0;
 
 var _quiz = require("../axios/quiz");
 
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 // import { timer, timeSeconds } from "../utils/timer";
 var questions = document.querySelector(".questions");
 var stopWatch = document.querySelector(".timer");
 
-var solveQuiz = function solveQuiz() {
-  var answers = [];
-  var timeSeconds = stopWatch.dataset.time * 60;
-  var quizquestions = JSON.parse(questions.dataset.quizquestions);
-  timer();
-  getAnswers();
-  sendAnswers();
+var solveQuiz = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+    var answers, quizId, quizquestions, getAnswers, finishQuiz, sendAnswers;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            sendAnswers = function _sendAnswers() {
+              questions.addEventListener("submit", function (e) {
+                e.preventDefault();
+                finishQuiz();
+              });
+            };
 
-  function timer() {
-    if (stopWatch) {
-      function updateCountdown() {
-        var hours, minutes, seconds;
+            finishQuiz = function _finishQuiz() {
+              var correct = 0;
+              quizquestions.forEach(function (pregunta, i) {
+                return pregunta.respuesta === answers[i] ? correct++ : correct;
+              }); //localStorage.setItem('result', `${this.checkAnswers()} / ${this.quizquestions.length}`);
 
-        if (timeSeconds >= 3600) {
-          hours = Math.floor(timeSeconds / 3600);
-          minutes = Math.floor(timeSeconds % 3600 / 60);
-          seconds = Math.floor(timeSeconds % 3600 % 60);
-        } else {
-          minutes = Math.floor(timeSeconds / 60);
-          seconds = timeSeconds % 60;
-        }
+              var grade = 5 * correct / quizquestions.length;
 
-        minutes = minutes < 10 ? "0".concat(minutes) : minutes;
-        seconds = seconds < 10 ? "0".concat(seconds) : seconds;
-        stopWatch.textContent = hours ? "".concat(hours, ":").concat(minutes, ":").concat(seconds) : "".concat(minutes, ":").concat(seconds);
-        timeSeconds--;
+              _quiz.Quiz.updateGrade(grade);
 
-        if (timeSeconds === 0) {
-          stopWatch.textContent = "00:00:00";
-          finishQuiz();
+              localStorage.setItem("result", "".concat(correct, " / ").concat(quizquestions.length));
+              window.setTimeout(function () {
+                location.assign("/quiz/view");
+              }, 1000);
+            };
+
+            getAnswers = function _getAnswers() {
+              questions.addEventListener("click", function (e) {
+                var optionInput = e.target.closest(".option-input");
+                if (!optionInput) return;
+                var optionsContainer = optionInput.parentNode.parentNode;
+                var indexq = optionsContainer.dataset.indexq;
+                var indexo = optionInput.dataset.indexo;
+                answers[indexq] = Number(indexo);
+                localStorage.setItem("answers", JSON.stringify(answers));
+              });
+            };
+
+            answers = [];
+            quizId = document.URL.split("/").slice(-1)[0];
+            _context.next = 7;
+            return _quiz.Quiz.getQuiz(quizId);
+
+          case 7:
+            quizquestions = _context.sent.preguntas;
+            getAnswers();
+            sendAnswers();
+
+          case 10:
+          case "end":
+            return _context.stop();
         }
       }
+    }, _callee);
+  }));
 
-      if (timeSeconds > 0) {
-        setInterval(updateCountdown, 1000);
-      }
-    }
-  }
-
-  function getAnswers() {
-    questions.addEventListener("click", function (e) {
-      var optionInput = e.target.closest(".option-input");
-      if (!optionInput) return;
-      var optionsContainer = optionInput.parentNode.parentNode;
-      var indexq = optionsContainer.dataset.indexq;
-      var indexo = optionInput.dataset.indexo;
-      answers[indexq] = Number(indexo);
-      localStorage.setItem("answers", JSON.stringify(answers));
-    });
-  }
-
-  function finishQuiz() {
-    var correct = 0;
-    quizquestions.forEach(function (pregunta, i) {
-      return pregunta.respuesta === answers[i] ? correct++ : correct;
-    }); //localStorage.setItem('result', `${this.checkAnswers()} / ${this.quizquestions.length}`);
-
-    var grade = 5 * correct / quizquestions.length;
-
-    _quiz.Quiz.updateGrade(grade);
-
-    localStorage.setItem("result", "".concat(correct, " / ").concat(quizquestions.length));
-    /* window.setTimeout(() => {
-                    location.assign('/quiz/view');
-                  }, 1000); */
-  }
-
-  function sendAnswers() {
-    questions.addEventListener("submit", function (e) {
-      e.preventDefault();
-      finishQuiz();
-    });
-  }
-};
+  return function solveQuiz() {
+    return _ref.apply(this, arguments);
+  };
+}();
 /* 
 export class SolveQuiz {
     static quizquestions = JSON.parse(questions.dataset.quizquestions);
@@ -59569,7 +59591,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57418" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61863" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

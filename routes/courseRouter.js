@@ -8,7 +8,7 @@ const router = express.Router();
 // router.use('/:courseId/quiz', quizRouter);
 
 router.use(AuthController.protect);
-
+router.use("/:courseId/quiz", quizRouter);
 // api/v1/curso
 
 router

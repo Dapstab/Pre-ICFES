@@ -10,7 +10,6 @@ export class Filter {
           params,
         },
       });
-      console.log(res);
       return res.data.locals;
     } catch (err) {
       console.log("Hubo un serio error gilipollas!!!");
