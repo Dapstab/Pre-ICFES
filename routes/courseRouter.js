@@ -13,7 +13,11 @@ router.use("/:courseId/quiz", quizRouter);
 
 router
   .route("/")
-  .post(CourseController.addProfessor, CourseController.createCourse)
+  .post(
+    CourseController.addProfessor,
+    CourseController.addKey,
+    CourseController.createCourse
+  )
   .patch(CourseController.joinCourse);
 
 router.route("/:courseId").get(CourseController.getCourse);

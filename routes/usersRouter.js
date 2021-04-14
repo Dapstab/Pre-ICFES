@@ -27,8 +27,9 @@ router
   .patch(UsersController.addQuizGrade); // Se cambio el factory a req.user.id es por ello que no usamos req.params
 
 router
-  .route("/:id")
+  .route("/:userId")
   .get(UsersController.getUser)
   .patch(UsersController.updateUser)
   .delete(UsersController.deleteUser);
+
 module.exports = router;

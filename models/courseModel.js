@@ -27,7 +27,7 @@ const courseSchema = new mongoose.Schema(
     },
     codigo: {
       type: String,
-      required: [true, "Todo curso debe tener un código"]
+      required: [true, "Todo curso debe tener un código"],
     },
     // La nota es una propiedad calculada con un pipeline
     // nota: {
@@ -61,8 +61,6 @@ courseSchema.virtual("quizzes", {
   localField: "_id",
   foreignField: "curso",
 });
-
-
 
 const Course = mongoose.model("Course", courseSchema, "Cursos");
 module.exports = Course;
