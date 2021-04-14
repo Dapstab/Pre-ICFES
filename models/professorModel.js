@@ -6,7 +6,7 @@ const professorSchema = new mongoose.Schema({
         type: [mongoose.Schema.objectId],
         ref: "Student"
     },
-    materias: {
+    materia: {
         type: String
     }
 },  {

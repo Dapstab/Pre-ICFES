@@ -25,7 +25,10 @@ const courseSchema = new mongoose.Schema(
       type: Date,
       default: Date.now(),
     },
-
+    codigo: {
+      type: String,
+      required: [true, "Todo curso debe tener un código"]
+    },
     // La nota es una propiedad calculada con un pipeline
     // nota: {
     //   type: Number,
@@ -40,7 +43,7 @@ courseSchema.index({ profesor: 1, nombre: 1 }, { unique: true }); // Un DETERMIN
 
 // Document Middleware
 courseSchema.pre("save", function (next) {
-  this.slug = slugify(this.name, { lower: true });
+  this.slug = slugify(this.nombre, { lower: true });
   next();
 });
 
@@ -58,6 +61,8 @@ courseSchema.virtual("quizzes", {
   localField: "_id",
   foreignField: "curso",
 });
+
+
 
 const Course = mongoose.model("Course", courseSchema, "Cursos");
 module.exports = Course;

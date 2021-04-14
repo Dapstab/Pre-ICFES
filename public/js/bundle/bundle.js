@@ -36390,7 +36390,7 @@ module.exports = {
   "_args": [
     [
       "elliptic@6.5.4",
-      "E:\\Desktop\\Prubas Icfes v.3\\Pre-ICFES"
+      "C:\\Users\\gordo\\Desktop\\VSCode\\Pre-ICFES"
     ]
   ],
   "_development": true,
@@ -36416,7 +36416,7 @@ module.exports = {
   ],
   "_resolved": "https://registry.npmjs.org/elliptic/-/elliptic-6.5.4.tgz",
   "_spec": "6.5.4",
-  "_where": "E:\\Desktop\\Prubas Icfes v.3\\Pre-ICFES",
+  "_where": "C:\\Users\\gordo\\Desktop\\VSCode\\Pre-ICFES",
   "author": {
     "name": "Fedor Indutny",
     "email": "fedor@indutny.com"
@@ -58871,8 +58871,10 @@ _defineProperty(Course, "joinCourse", /*#__PURE__*/function () {
             _context2.next = 3;
             return (0, _axios.default)({
               method: "PATCH",
-              url: "http://127.0.0.1:3000/api/v1/curso/".concat(code),
-              data: {}
+              url: "http://127.0.0.1:3000/api/v1/curso",
+              data: {
+                code: code
+              }
             });
 
           case 3:
@@ -59591,7 +59593,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64496" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54932" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

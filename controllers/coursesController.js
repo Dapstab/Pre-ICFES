@@ -1,11 +1,28 @@
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const Factory = require("./factoryController");
+const crypto = require("crypto");
 const Course = require("../models/courseModel");
 // const Professor = require("../models/professorModel");
 
 module.exports = class CourseController {
-  static getCourse = Factory.getOne(Course);
+  static getCourse = catchAsync(async (req, res, next) => {
+    // Get course with quizzes (if (req.user.role === 'teacher'))
+    const course = await CourseMerge.findById(req.params.courseId).populate({
+      path: "quizzes",
+      select: "-course",
+    });
+  
+    if (!course) {
+      return next(
+        new AppError("No se ha encontrado el curso con el id dado", 404)
+      );
+    }
+    res.status(200).json({
+      status: "success",
+      course,
+    });
+  });
   static deleteCourse = Factory.deleteOne(Course);
   static updateCousre = Factory.updateOne(Course);
 
@@ -24,15 +41,21 @@ module.exports = class CourseController {
   };
 
   static createCourse = catchAsync(async (req, res, next) => {
+    req.body.codigo = crypto.randomBytes(8).toString('hex');
     const course = await Course.create(req.body);
     res.status(201).json({
       status: "success",
       course,
     });
   });
+  
+  static addKey = (req, res, next) => {
+    req.body.codigo = req.body.code;
+    next();
+  }
 
   static joinCourse = catchAsync(async (req, res, next) => {
-    const course = await Course.findOne({ codigo: req.params.code });
+    const course = await Course.findOne({ codigo: req.body.code });
     if (course) {
       course.estudiantes.push(req.user.id);
       await course.save();

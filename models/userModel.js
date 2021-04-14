@@ -1,151 +1,62 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
-const crypto = require("crypto");
-const validator = require("validator");
+const slugify = require("slugify");
 
-const userSchema = new mongoose.Schema(
+const courseSchema = new mongoose.Schema(
   {
-    nombre: {
+    name: {
       type: String,
-      required: [true, "Por favor diganos su nombre"],
-      trim: true,
-      minlength: [2, "El nombre debe tener al menos 2 caracteres"],
-      maxlength: [15, "El nombre debe tener un máximo de 15 caracteres"],
+      required: [true, "Todo curso debe tener un nombre"],
+    },
+    slug: String, // Para no poner id´s en la url de viewRouter
+    // Con esto los cursos no tienen conocimiento de los quizzes solo atraves de un virtual populate, todo esto debido a que ahora hay un parent referencing de quiz a course. (Los quizzes guardan el Id del curso), con child referencing lo que tendriamos que hacer es actualizar a cada rato el courseModel.
+    // quizzes: {
+    //   type: [mongoose.Schema.ObjectId],
+    //   ref: "QuizMerge",
+    // },
+    subject: {
+      type: String,
+      required: [true, "Todo curso debe ser de una asignatura"],
     },
 
-    apellido: {
-      type: String,
-      required: [true, "Por favor diganos su apellido"],
-      trim: true,
-      minlength: [2, "El nombre debe tener al menos 2 caracteres"],
-      maxlength: [30, "El nombre debe tener un máximo de 30 caracteres"],
+    // Hay una ventaja inherente al hacer parent Refrencing, y es que es mas lógico que el usuario no tenga nada que ver al momento de crearse con los cursos, es cuando se crea un curso que se sabe del usuario al que le pertenece.
+    professor: {
+      type: mongoose.Schema.ObjectId,
+      ref: "Professor",
+      required: [true, "Todo curso debe pertenecer a un profesor"],
     },
-
-    correo: {
-      type: String,
-      unique: true,
-      required: [true, "Por favor dinos tu correo"],
-      validate: [validator.isEmail, "Correo invalido"],
-      trim: true,
-      lowercase: true,
+    students: {
+      type: [mongoose.Schema.ObjectId],
+      ref: "Student",
     },
-
-    clave: {
-      type: String,
-      select: false,
-      required: [true, "Por favor digita tu contraseña"],
-      trim: true,
-      minlength: [8, "La contraseña debe tener al menos 8 caracteres"],
-    },
-
-    confirmarClave: {
-      type: String,
-      required: [true, "Please confirm your password"],
-      validate: {
-        validator: function (val) {
-          return val === this.clave;
-        },
-        message: "Las contraseñas no coinciden",
-      },
-      trim: true,
-    },
-
-    fechaCreacion: {
-      type: Date,
-      default: Date.now(),
-      select: false,
-    },
-    rol: {
-      type: String,
-      default: "estudiante",
-      enum: {
-        values: ["admin", "estudiante", "profesor"],
-      },
-    },
-    foto: String,
-    cursos: [
-      {
-        type: mongoose.Schema.ObjectId,
-        ref: "Course",
-      },
-    ],
-    activo: {
-      default: "true",
-      type: Boolean,
-      select: false,
-    },
-    ultimoIngreso: Date,
-    fechaCambioClave: Date,
-    passwordResetToken: String,
-    passwordResetExpires: Date,
   },
-  { toJSON: { virtuals: true }, toObject: { virtuals: true } },
-  { discriminatorKey: "role" }
+
+  { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
-// Document middlewares:
+// Indexes
+courseSchema.index({ professor: 1, name: 1 }, { unique: true }); // Un DETERMINADO usuario no puede crear dos cursos con el mismo nombre
 
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("clave")) return next;
-  this.clave = await bcrypt.hash(this.clave, 10);
-  this.confirmarClave = undefined;
+// Document Middleware
+courseSchema.pre("save", function (next) {
+  this.slug = slugify(this.name, { lower: true });
   next();
 });
 
-userSchema.pre("save", function (next) {
-  if (!this.isModified("clave") || this.isNew) return next();
-  this.fechaCambioClave = Date.now() - 1000;
-  next();
-});
-
-userSchema.pre(/^find/, function (next) {
-  this.find({ activo: { $ne: false } });
+courseSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "students",
+    select: "name grades", // No se puede excluir a __t, este populate es para los profesores
+  });
   next();
 });
 
 // Virtual Populate
-userSchema.virtual("courses", {
-  ref: "Course",
+courseSchema.virtual("quizzes", {
+  ref: "QuizMerge",
   localField: "_id",
-  foreignField: "estudiantes",
+  foreignField: "course",
 });
 
-userSchema.virtual("createdCourses", {
-  ref: "Course",
-  localField: "_id",
-  foreignField: "profesor",
-});
+const CourseMerge = mongoose.model("CourseMerge", courseSchema);
 
-userSchema.pre(/^find/, function (next) {
-  this.find({ activo: { $ne: false } });
-  next();
-});
-
-// Metodos de autenticación
-userSchema.methods.correctPasswords = async (plainText, contraseña) => {
-  return await bcrypt.compare(plainText, contraseña);
-};
-
-userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
-  if (this.fechaCambioClave) {
-    const changedTimeStamp = parseInt(
-      this.fechaCambioClave.getTime() / 1000,
-      10
-    );
-    return JWTTimestamp < changedTimeStamp;
-  }
-  return false;
-};
-
-userSchema.methods.createPasswordResetToken = function () {
-  const resetToken = crypto.randomBytes(32).toString("hex");
-  this.passwordResetToken = crypto
-    .createHash("sha256")
-    .update(resetToken)
-    .digest("hex");
-  this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
-  return resetToken;
-};
-
-const User = mongoose.model("User", userSchema, "usuarios");
-module.exports = User;
+module.exports = CourseMerge;

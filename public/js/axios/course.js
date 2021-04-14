@@ -21,8 +21,9 @@ export class Course {
     try {
       const res = await axios({
         method: "PATCH",
-        url: `http://127.0.0.1:3000/api/v1/curso/${code}`,
+        url: `http://127.0.0.1:3000/api/v1/curso`,
         data: {
+          code
         },
       });
       return res.data.locals;

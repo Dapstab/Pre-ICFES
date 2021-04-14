@@ -4,8 +4,8 @@ const express = require("express");
 
 const router = express.Router();
 
-router.post("/login", AuthController.signup);
-router.post("/signup", AuthController.login);
+router.post("/login", AuthController.login);
+router.post("/signup", AuthController.signup);
 router.get("/logout", AuthController.logout);
 
 router.post("/forgotPassword", AuthController.forgotPassword);
@@ -31,10 +31,4 @@ router
   .get(UsersController.getUser)
   .patch(UsersController.updateUser)
   .delete(UsersController.deleteUser);
-
-/* router.route("/:id/grade").patch(UsersController.updateGrade, UsersController.updateUser); */
-/* router.route('/:id/listaAmigos')
-.post(AmigosCtrl.sendFriendRequest)
-.patch(AmigosCtrl.acceptFriendRequest); */
-
 module.exports = router;

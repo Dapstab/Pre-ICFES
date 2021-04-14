@@ -11,7 +11,27 @@ const filterObj = (obj, ...allowedFields) => {
 };
 
 module.exports = class UserController {
-  static getUser = Factory.getOne(User);
+  static getUser = catchAsync(async (req, res, next) => {
+    const user = await User.findById(req.params.id)
+      .populate({ path: "cursos", select: "nombre -estudiantes" })
+      .populate({ path: "cursosCreados", select: "nombre estudiantes asignatura -profesor" });
+    if (user.rol === "estudiante") {
+      user.depopulate("cursosCreados");
+    } else if (user.rol === "profesor") {
+      user.depopulate("cursos");
+    }
+  
+    if (!user) {
+      return next(
+        new AppError("Ningun estudiante encontrado con el ID dado", 404)
+      );
+    }
+  
+    res.status(200).json({
+      status: "success",
+      user,
+    });
+  });
   static deleteUser = Factory.deleteOne(User);
   static updateUser = Factory.updateOne(User);
   static createUser = Factory.createOne(User);

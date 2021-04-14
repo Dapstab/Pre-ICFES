@@ -26,7 +26,7 @@ const quizSchema = new mongoose.Schema(
     },
     fechaEntrega: {
       type: Date,
-      required: [true, "Los quices deben tener una fecha de entrega"],
+      /* required: [true, "Los quices deben tener una fecha de entrega"], */
     },
     preguntas: [questionSchema],
     fechaCreacion: {
@@ -48,7 +48,7 @@ const quizSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: "Course",
       required: [true, "Todo quiz debe pertenecer a un curso"],
-    }
+    },
   },
   {
     toJSON: { virtuals: true },

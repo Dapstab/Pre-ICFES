@@ -6,6 +6,7 @@ const crypto = require("crypto");
 const sendEmail = require("../utils/email");
 const Student = require("../models/studentModel");
 const User = require("../models/userModel");
+const Professor = require("../models/professorModel");
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -33,21 +34,31 @@ const createSendToken = (user, statusCode, res) => {
     user,
   });
 };
+
+exports.signup = catchAsync(async (req, res, next) => {
+  createSendToken(newUser, 201, req, res);
+});
 module.exports = class Autenticacion {
   static signup = catchAsync(async (req, res, next) => {
     let newUser;
     if (req.body.clave === req.body.confirmarClave) {
-      newUser = await Student.create({
+      let body = {
         nombre: req.body.nombre,
-        apellido: req.body.apellido,
-        correo: req.body.correo,
         clave: req.body.clave,
         confirmarClave: req.body.confirmarClave,
-        // Gracias a strict podemos meter propiedades no especificadas en el Schema, ahora solo toca hacer un if dependiendo del rol
-        grado: req.body.grado,
-        jornada: req.body.jornada,
-      });
-    } else {
+        correo: req.body.correo,
+        apellido: req.body.apellido
+      };
+      if (req.body.materia) {
+        body.materia = req.body.materia;
+        body.rol = "profesor";
+        newUser = await Professor.create(body);
+      } 
+      else {
+        newUser = await Student.create(body);
+      }
+    } 
+    else {
       return next(new AppError("Las contraseñas no coinciden", 400));
     }
     createSendToken(newUser, 200, res);
