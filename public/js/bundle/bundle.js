@@ -9063,8 +9063,7 @@ _defineProperty(Quiz, "sendDataToQuiz", /*#__PURE__*/function () {
         switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
-            console.log('hola');
-            _context.next = 4;
+            _context.next = 3;
             return (0, _axios.default)({
               method: "POST",
               url: "http://127.0.0.1:3000/api/v1/courses/".concat(cursoId, "/quiz"),
@@ -9077,22 +9076,22 @@ _defineProperty(Quiz, "sendDataToQuiz", /*#__PURE__*/function () {
               }
             });
 
-          case 4:
+          case 3:
             res = _context.sent;
             return _context.abrupt("return", res.data.newDoc._id);
 
-          case 8:
-            _context.prev = 8;
+          case 7:
+            _context.prev = 7;
             _context.t0 = _context["catch"](0);
             console.log(_context.t0);
             console.log("Hubo un serio error gilipollas!!!");
 
-          case 12:
+          case 11:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 8]]);
+    }, _callee, null, [[0, 7]]);
   }));
 
   return function (_x, _x2, _x3, _x4, _x5, _x6) {
@@ -36343,7 +36342,7 @@ module.exports = {
   "_args": [
     [
       "elliptic@6.5.4",
-      "C:\\Users\\gordo\\Desktop\\VSCode\\Pre-ICFES"
+      "E:\\Desktop\\Prubas Icfes v.3\\Pre-ICFES"
     ]
   ],
   "_development": true,
@@ -36369,7 +36368,7 @@ module.exports = {
   ],
   "_resolved": "https://registry.npmjs.org/elliptic/-/elliptic-6.5.4.tgz",
   "_spec": "6.5.4",
-  "_where": "C:\\Users\\gordo\\Desktop\\VSCode\\Pre-ICFES",
+  "_where": "E:\\Desktop\\Prubas Icfes v.3\\Pre-ICFES",
   "author": {
     "name": "Fedor Indutny",
     "email": "fedor@indutny.com"
@@ -59565,7 +59564,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51600" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58755" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

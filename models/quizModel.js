@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { questionSchema } = require("./questionModel");
-const slugify = require('slugify');
+const slugify = require("slugify");
 
 const quizSchema = new mongoose.Schema(
   {
@@ -58,9 +58,10 @@ const quizSchema = new mongoose.Schema(
   }
 );
 
-quizSchema.pre('save', function(next) {
-  this.slug = slugify(this.nombre, { lower: true })
-})
+quizSchema.pre("save", function (next) {
+  this.slug = slugify(this.nombre, { lower: true });
+  next();
+});
 
 const Quiz = mongoose.model("Quiz", quizSchema, "Quices");
 
