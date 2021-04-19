@@ -56,7 +56,7 @@ courseSchema.pre(/^find/, function (next) {
 });
 
 // Virtual Populate
-courseSchema.virtual("quizzes", {
+courseSchema.virtual("quices", {
   ref: "Quiz",
   localField: "_id",
   foreignField: "curso",

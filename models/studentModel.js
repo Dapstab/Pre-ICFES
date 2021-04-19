@@ -3,15 +3,10 @@ const mongoose = require("mongoose");
 
 const studentSchema = new mongoose.Schema(
   {
-    notas: [
-      {
-        quizId: {
-          type: mongoose.Schema.ObjectId,
-          ref: "Quiz",
-        },
-        nota: Number,
-      },
-    ],
+    profesores: {
+      type: [mongoose.Schema.ObjectId],
+      ref: 'Professor'
+    }
   },
   {
     discriminatorKey: "role",
@@ -19,6 +14,12 @@ const studentSchema = new mongoose.Schema(
     toObject: { virtuals: true },
   }
 );
+
+studentSchema.virtual('notas', {
+  localField: '_id',
+  ref: 'Grades',
+  foreignField: 'estudiante'
+})
 
 const Student = User.discriminator("Student", studentSchema);
 module.exports = Student;

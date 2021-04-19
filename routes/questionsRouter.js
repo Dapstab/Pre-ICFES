@@ -6,7 +6,7 @@ const { Question } = require("../models/questionModel");
 const router = express.Router();
 
 router.use(AuthController.protect);
-router.use(AuthController.restrictTo("admin", "contribuidor"));
+// router.use(AuthController.restrictTo("admin", "contribuidor"));
 
 router
   .route("/")

@@ -17,7 +17,8 @@ module.exports = class UserController {
       .populate({
         path: "cursosCreados",
         select: "nombre estudiantes asignatura -profesor",
-      });
+      }).
+      populate({ path: 'notas', select: "nota curso quiz -estudiante" });
     if (user.rol === "estudiante") {
       user.depopulate("cursosCreados");
     } else if (user.rol === "profesor") {
@@ -78,7 +79,7 @@ module.exports = class UserController {
     });
   });
 
-  static addQuizGrade = catchAsync(async (req, res, next) => {
+  /* static addQuizGrade = catchAsync(async (req, res, next) => {
     const student = await Student.findById(req.user.id);
     const result = student.notas.push({
       quiz: req.body.quizId,
@@ -88,6 +89,6 @@ module.exports = class UserController {
     res.status(200).json({
       status: "success",
       result,
-    });
-  });
+    }); */
+  /* }); */
 };

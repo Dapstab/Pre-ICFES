@@ -23,7 +23,7 @@ router.get('/grades', ViewsController.getGrades);
 router.get("/quiz", ViewsController.createQuiz);  //Crear Quiz
 router.get("/quiz/question", ViewsController.getQuestionForm); //Agregar pregunta
 router.get("/quiz/edit", ViewsController.editQuiz);  //Quiz Dashboards
-router.get('/quiz/view', ViewsController.viewQuiz);
+router.get('/quiz/view/:slug', ViewsController.viewQuiz);
 /* router.get("/quiz/edit/:quizId", ViewsController.editQuiz);  //Quiz Dashboards
 router.get('/quiz/view/:quizId', ViewsController.viewQuiz); */
 router.get("/quiz/:quizId", QuicesController.hasBeenSolved, ViewsController.solveQuiz); // Solve Quiz

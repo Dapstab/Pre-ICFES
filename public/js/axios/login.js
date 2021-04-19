@@ -5,7 +5,7 @@ export class Login {
     try {
       const res = await axios({
         method: "POST",
-        url: "http://127.0.0.1:3000/api/v1/usuarios/iniciarSesion",
+        url: "http://127.0.0.1:3000/api/v1/users/login",
         data: {
           correo,
           clave,
@@ -25,7 +25,7 @@ export class Login {
     try {
       const res = await axios({
         method: "GET",
-        url: "http://127.0.0.1:3000/api/v1/usuarios/cerrarSesion",
+        url: "http://127.0.0.1:3000/api/v1/users/logout",
       });
 
       if (res.data.status === "success") {
@@ -50,7 +50,7 @@ export class Login {
     try {
       const res = await axios({
         method: "POST",
-        url: "http://127.0.0.1:3000/api/v1/usuarios/registro",
+        url: "http://127.0.0.1:3000/api/v1/users/signup",
         data: {
           nombre,
           apellido,

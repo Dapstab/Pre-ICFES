@@ -8488,7 +8488,7 @@ _defineProperty(Login, "login", /*#__PURE__*/function () {
             _context.next = 3;
             return (0, _axios.default)({
               method: "POST",
-              url: "http://127.0.0.1:3000/api/v1/usuarios/iniciarSesion",
+              url: "http://127.0.0.1:3000/api/v1/users/login",
               data: {
                 correo: correo,
                 clave: clave
@@ -8535,7 +8535,7 @@ _defineProperty(Login, "logout", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/re
           _context2.next = 3;
           return (0, _axios.default)({
             method: "GET",
-            url: "http://127.0.0.1:3000/api/v1/usuarios/cerrarSesion"
+            url: "http://127.0.0.1:3000/api/v1/users/logout"
           });
 
         case 3:
@@ -8574,7 +8574,7 @@ _defineProperty(Login, "signup", /*#__PURE__*/function () {
             _context3.next = 3;
             return (0, _axios.default)({
               method: "POST",
-              url: "http://127.0.0.1:3000/api/v1/usuarios/registro",
+              url: "http://127.0.0.1:3000/api/v1/users/signup",
               data: {
                 nombre: nombre,
                 apellido: apellido,
@@ -8830,21 +8830,6 @@ function resize(textarea) {
     this.style.height = this.scrollHeight + 'px';
   }, false);
 }
-},{}],"utils/addToArrayLS.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = addToArrayLS;
-
-function addToArrayLS(name, element) {
-  var array = window.localStorage.getItem(name);
-  array = array ? array : [];
-  console.log(array);
-  array.push(element);
-  localStorage.setItem(name, array);
-}
 },{}],"axios/question.js":[function(require,module,exports) {
 "use strict";
 
@@ -8854,8 +8839,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.Question = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
-
-var _addToArrayLS = _interopRequireDefault(require("../utils/addToArrayLS"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8889,7 +8872,7 @@ var Question = /*#__PURE__*/function () {
                 _context.next = 3;
                 return (0, _axios.default)({
                   method: "POST",
-                  url: "http://127.0.0.1:3000/api/v1/pregunta",
+                  url: "http://127.0.0.1:3000/api/v1/questions",
                   data: {
                     pregunta: pregunta,
                     opciones: opciones,
@@ -8949,7 +8932,7 @@ var Question = /*#__PURE__*/function () {
 exports.Question = Question;
 
 _defineProperty(Question, "questions", []);
-},{"axios":"../../node_modules/axios/index.js","../utils/addToArrayLS":"utils/addToArrayLS.js"}],"forms/questionForm.js":[function(require,module,exports) {
+},{"axios":"../../node_modules/axios/index.js"}],"forms/questionForm.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9080,23 +9063,22 @@ _defineProperty(Quiz, "sendDataToQuiz", /*#__PURE__*/function () {
         switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
-            _context.next = 3;
+            console.log('hola');
+            _context.next = 4;
             return (0, _axios.default)({
               method: "POST",
-              url: "http://127.0.0.1:3000/api/v1/quiz",
+              url: "http://127.0.0.1:3000/api/v1/courses/".concat(cursoId, "/quiz"),
               data: {
                 nombre: nombre,
                 asignatura: asignatura,
                 tiempo: tiempo,
                 fechaEntrega: fechaEntrega,
-                descripcion: descripcion,
-                cursoId: cursoId
+                descripcion: descripcion
               }
             });
 
-          case 3:
+          case 4:
             res = _context.sent;
-            console.log(res.data);
             return _context.abrupt("return", res.data.newDoc._id);
 
           case 8:
@@ -9119,7 +9101,7 @@ _defineProperty(Quiz, "sendDataToQuiz", /*#__PURE__*/function () {
 }());
 
 _defineProperty(Quiz, "endQuiz", /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(quizId) {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(quizId, courseId) {
     var res;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
@@ -9129,7 +9111,8 @@ _defineProperty(Quiz, "endQuiz", /*#__PURE__*/function () {
             _context2.next = 3;
             return (0, _axios.default)({
               method: 'PATCH',
-              url: "http://127.0.0.1:3000/api/v1/quiz/edit/".concat(quizId),
+              url: "http://127.0.0.1:3000/api/v1/courses/".concat(courseId, "/quiz/edit/").concat(quizId),
+              // url: `http://127.0.0.1:3000/api/v1/quizzes/edit/${quizId}`,
               data: JSON.parse(localStorage.getItem('questions'))
             });
 
@@ -9160,28 +9143,29 @@ _defineProperty(Quiz, "endQuiz", /*#__PURE__*/function () {
     }, _callee2, null, [[0, 7]]);
   }));
 
-  return function (_x7) {
+  return function (_x7, _x8) {
     return _ref2.apply(this, arguments);
   };
 }());
 
-_defineProperty(Quiz, "updateGrade", /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(grade) {
+_defineProperty(Quiz, "getQuiz", /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(id) {
+    var res;
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
             _context3.next = 2;
             return (0, _axios.default)({
-              method: 'PATCH',
-              url: 'http://127.0.0.1:3000/api/v1/usuarios',
-              data: {
-                quizId: document.URL.split('/')[4],
-                grade: grade
-              }
+              method: 'GET',
+              url: "http://127.0.0.1:3000/api/v1/quiz/".concat(id)
             });
 
           case 2:
+            res = _context3.sent;
+            return _context3.abrupt("return", res.data.doc);
+
+          case 4:
           case "end":
             return _context3.stop();
         }
@@ -9189,38 +9173,8 @@ _defineProperty(Quiz, "updateGrade", /*#__PURE__*/function () {
     }, _callee3);
   }));
 
-  return function (_x8) {
-    return _ref3.apply(this, arguments);
-  };
-}());
-
-_defineProperty(Quiz, "getQuiz", /*#__PURE__*/function () {
-  var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(id) {
-    var res;
-    return regeneratorRuntime.wrap(function _callee4$(_context4) {
-      while (1) {
-        switch (_context4.prev = _context4.next) {
-          case 0:
-            _context4.next = 2;
-            return (0, _axios.default)({
-              method: 'GET',
-              url: "http://127.0.0.1:3000/api/v1/quiz/".concat(id)
-            });
-
-          case 2:
-            res = _context4.sent;
-            return _context4.abrupt("return", res.data.doc);
-
-          case 4:
-          case "end":
-            return _context4.stop();
-        }
-      }
-    }, _callee4);
-  }));
-
   return function (_x9) {
-    return _ref4.apply(this, arguments);
+    return _ref3.apply(this, arguments);
   };
 }());
 },{"axios":"../../node_modules/axios/index.js"}],"forms/quizForm.js":[function(require,module,exports) {
@@ -9252,8 +9206,7 @@ var createQuiz = function createQuiz() {
               asignatura = document.getElementById("subject").value;
               tiempo = document.getElementById("time").value;
               fechaEntrega = document.getElementById("due-date").value;
-              descripcion = document.getElementById("description").value; // console.log(localStorage.getItem('currentCourse'));
-
+              descripcion = document.getElementById("description").value;
               _context.next = 9;
               return _quiz.Quiz.sendDataToQuiz(nombre, asignatura, tiempo, fechaEntrega, descripcion, localStorage.getItem('currentCourse'));
 
@@ -58829,7 +58782,7 @@ _defineProperty(Course, "createCourse", /*#__PURE__*/function () {
             _context.next = 3;
             return (0, _axios.default)({
               method: "POST",
-              url: "http://127.0.0.1:3000/api/v1/curso",
+              url: "http://127.0.0.1:3000/api/v1/courses",
               data: {
                 nombre: nombre,
                 asignatura: asignatura,
@@ -58839,20 +58792,27 @@ _defineProperty(Course, "createCourse", /*#__PURE__*/function () {
 
           case 3:
             res = _context.sent;
-            _context.next = 9;
+
+            if (res.data.status === "success") {
+              window.setTimeout(function () {
+                location.assign("/courses");
+              }, 1500);
+            }
+
+            _context.next = 10;
             break;
 
-          case 6:
-            _context.prev = 6;
+          case 7:
+            _context.prev = 7;
             _context.t0 = _context["catch"](0);
             console.log("Hubo un serio error gilipollas!!!");
 
-          case 9:
+          case 10:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 6]]);
+    }, _callee, null, [[0, 7]]);
   }));
 
   return function (_x, _x2, _x3) {
@@ -58871,7 +58831,7 @@ _defineProperty(Course, "joinCourse", /*#__PURE__*/function () {
             _context2.next = 3;
             return (0, _axios.default)({
               method: "PATCH",
-              url: "http://127.0.0.1:3000/api/v1/curso",
+              url: "http://127.0.0.1:3000/api/v1/courses",
               data: {
                 code: code
               }
@@ -58879,7 +58839,15 @@ _defineProperty(Course, "joinCourse", /*#__PURE__*/function () {
 
           case 3:
             res = _context2.sent;
-            return _context2.abrupt("return", res.data.locals);
+
+            if (res.data.status === "success") {
+              window.setTimeout(function () {
+                location.assign(document.URL);
+              }, 1500);
+            }
+
+            _context2.next = 10;
+            break;
 
           case 7:
             _context2.prev = 7;
@@ -58920,11 +58888,13 @@ var courseModal = function courseModal() {
   var formContainer = document.querySelector('.modal');
   var courseForm = document.getElementById('form__course');
   var overlay = document.querySelector('.overlay');
-  var addCourse = document.querySelector('.btn__btn--add-course');
-  addCourse.addEventListener('click', function () {
-    formContainer.classList.remove('hidden');
-    overlay.classList.remove('hidden');
-  });
+  /*     const addCourse = document.querySelector('.btn__btn--add-course');
+      
+      addCourse.addEventListener('click', () => {
+          formContainer.classList.remove('hidden');
+          overlay.classList.remove('hidden'); 
+      }); */
+
   courseForm.addEventListener('submit', /*#__PURE__*/function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {
       var code, nombre, asignatura;
@@ -59029,7 +58999,7 @@ var addQuizQuestion = document.querySelector(".add-question");
 
 var editQuiz = function editQuiz() {
   endQuizBtn.addEventListener("click", function () {
-    _quiz.Quiz.endQuiz(window.localStorage.getItem('quiz'));
+    _quiz.Quiz.endQuiz(localStorage.getItem('quiz', localStorage.getItem('currentCourse')));
   });
   addQuizQuestion.addEventListener("click", function () {
     window.setTimeout(function () {
@@ -59202,31 +59172,34 @@ var Courses = function Courses() {
     e.stopImmediatePropagation();
     localStorage.setItem('currentCourse', e.target.dataset.courseid);
   });
-  var joinCourse = document.querySelector('.join-course');
-  joinCourse.addEventListener('submit', /*#__PURE__*/function () {
-    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {
-      var courseCode;
-      return regeneratorRuntime.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              e.preventDefault();
-              courseCode = document.getElementById('course-code').value;
-              _context.next = 4;
-              return _course.Course.joinCourse(courseCode);
 
-            case 4:
-            case "end":
-              return _context.stop();
+  if (courses.dataset.role === 'estudiante') {
+    var joinCourse = document.querySelector('.join-course');
+    joinCourse.addEventListener('submit', /*#__PURE__*/function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {
+        var courseCode;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                e.preventDefault();
+                courseCode = document.getElementById('course-code').value;
+                _context.next = 4;
+                return _course.Course.joinCourse(courseCode);
+
+              case 4:
+              case "end":
+                return _context.stop();
+            }
           }
-        }
-      }, _callee);
-    }));
+        }, _callee);
+      }));
 
-    return function (_x) {
-      return _ref.apply(this, arguments);
-    };
-  }());
+      return function (_x) {
+        return _ref.apply(this, arguments);
+      };
+    }());
+  }
 };
 
 exports.Courses = Courses;
@@ -59543,9 +59516,8 @@ if (document.URL === "http://127.0.0.1:3000/quiz") {
   (0, _quizForm.createQuiz)();
 }
 
-if (document.URL.includes("/course")) {
-  /* courseModal();
-  join(); */
+if (document.URL === "http://127.0.0.1:3000/course") {
+  (0, _courseModal.courseModal)();
 }
 
 if (document.URL.includes("/quiz/edit")) {
@@ -59593,7 +59565,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54932" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51600" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

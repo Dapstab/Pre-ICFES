@@ -11,7 +11,6 @@ export const createQuiz = function () {
     const tiempo = document.getElementById("time").value;
     const fechaEntrega = document.getElementById("due-date").value;
     const descripcion = document.getElementById("description").value;
-    // console.log(localStorage.getItem('currentCourse'));
     const quizId = await Quiz.sendDataToQuiz(
       nombre,
       asignatura,

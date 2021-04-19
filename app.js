@@ -10,6 +10,7 @@ const path = require("path");
 
 const viewRouter = require("./routes/viewsRouter");
 const questionRouter = require("./routes/questionsRouter");
+const gradesRouter = require("./routes/gradesRouter");
 const userRouter = require("./routes/usersRouter");
 const quizRouter = require("./routes/quicesRouter");
 const courseRouter = require("./routes/courseRouter");
@@ -58,6 +59,7 @@ app.use("/api/v1/questions", questionRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/quizzes", quizRouter);
 app.use("/api/v1/courses", courseRouter);
+app.use("/api/v1/grades", gradesRouter);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`La página ${req.originalUrl} no se ha encontrado`, 404));

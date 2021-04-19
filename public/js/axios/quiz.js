@@ -10,19 +10,18 @@ export class Quiz {
     cursoId
   ) {
     try {
+      console.log('hola');
       const res = await axios({
         method: "POST",
-        url: `http://127.0.0.1:3000/api/v1/quiz`,
+        url: `http://127.0.0.1:3000/api/v1/courses/${cursoId}/quiz`,
         data: {
           nombre,
           asignatura,
           tiempo,
           fechaEntrega,
           descripcion,
-          cursoId
         }
       });
-      console.log(res.data);
       return res.data.newDoc._id;
     } catch (err) {
       console.log(err);
@@ -30,11 +29,12 @@ export class Quiz {
     }
   };
 
-  static endQuiz = async function (quizId) {
+  static endQuiz = async function (quizId, courseId) {
     try {
       const res = await axios({
         method: 'PATCH',
-        url: `http://127.0.0.1:3000/api/v1/quiz/edit/${quizId}`,
+        url: `http://127.0.0.1:3000/api/v1/courses/${courseId}/quiz/edit/${quizId}`,
+        // url: `http://127.0.0.1:3000/api/v1/quizzes/edit/${quizId}`,
         data: JSON.parse(localStorage.getItem('questions'))
       });
       if (res.data.status === "success") {
@@ -49,18 +49,7 @@ export class Quiz {
       console.log("Hubo un error en el axios de endQuiz");
     }
   };
-
-  static updateGrade = async function(grade) {
-    await axios({
-      method: 'PATCH',
-      url: 'http://127.0.0.1:3000/api/v1/usuarios',
-      data: { 
-        quizId: document.URL.split('/')[4], 
-        grade
-      }
-    });
-  }
-
+  
   static getQuiz = async function(id) {
     const res = await axios({
       method: 'GET',

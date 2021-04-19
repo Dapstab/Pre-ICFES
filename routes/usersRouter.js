@@ -24,7 +24,7 @@ router
   .route("/")
   .post(UsersController.createUser)
   .get(UsersController.getAllUsers)
-  .patch(UsersController.addQuizGrade); // Se cambio el factory a req.user.id es por ello que no usamos req.params
+  //.patch(UsersController.addQuizGrade); // Se cambio el factory a req.user.id es por ello que no usamos req.params
 
 router
   .route("/:userId")

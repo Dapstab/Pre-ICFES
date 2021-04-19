@@ -34,9 +34,8 @@ if (document.URL === "http://127.0.0.1:3000/quiz") {
   createQuiz();
 }
 
-if (document.URL.includes("/course")) {
-  /* courseModal();
-  join(); */
+if (document.URL === "http://127.0.0.1:3000/course") {
+  courseModal();
 }
 
 if (document.URL.includes("/quiz/edit")) {

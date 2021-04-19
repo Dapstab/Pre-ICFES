@@ -2,8 +2,8 @@ extends ../dashboard
 //-each course in user.courses
 block contentDashboard
     .courses-container
-        ul.courses
-            if user.role="student"
+        ul.courses(data-role=user.rol)
+            if user.rol==="estudiante"
                 //-button Unirse a Curso
                 //-form.modal.join-course.hidden
                 form.join-course

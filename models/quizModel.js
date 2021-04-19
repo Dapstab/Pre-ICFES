@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { questionSchema } = require("./questionModel");
+const slugify = require('slugify');
 
 const quizSchema = new mongoose.Schema(
   {
@@ -9,6 +10,7 @@ const quizSchema = new mongoose.Schema(
       maxlength: [20, "El titulo no pude pasar los  20 caracteres"],
       required: [true, "Todo quiz debe tener un nombre"],
     },
+    slug: String,
     nPreguntas: {
       type: Number,
     },
@@ -55,6 +57,10 @@ const quizSchema = new mongoose.Schema(
     toObject: { virtuals: true },
   }
 );
+
+quizSchema.pre('save', function(next) {
+  this.slug = slugify(this.nombre, { lower: true })
+})
 
 const Quiz = mongoose.model("Quiz", quizSchema, "Quices");
 

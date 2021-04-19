@@ -81,7 +81,7 @@ module.exports = class ViewsController {
   // };
   // Ir a la página del curso en particular 
   static getCourse = catchAsync(async (req, res, next) => {
-    const course = await Course.findById(req.params.courseId);
+    const course = await Course.findById(req.params.courseId).populate({path: 'quices', select: 'nombre'});
     res.status(200).render("courses/course", {
       title: course.nombre,
       course
@@ -91,10 +91,10 @@ module.exports = class ViewsController {
   
 
   static getCourses = catchAsync(async (req, res, next) => {
-    const user = await User.findById(req.user.id).populate({ path: 'cursos' });
+    const user = await User.findById(req.user.id).populate({ path: 'cursos' }).populate({ path: 'cursosCreados'});
     res.status(200).render("courses/courses", {
       title: "Mis Cursos",
-      courses: user.cursos
+      courses: user.rol === 'estudiante' ? user.cursos : user.cursosCreados
     });
   });
 

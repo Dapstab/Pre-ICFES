@@ -5,7 +5,8 @@ const addQuizQuestion = document.querySelector(".add-question");
 
 export const editQuiz = function () {
   endQuizBtn.addEventListener("click", () => {
-    Quiz.endQuiz(window.localStorage.getItem('quiz'));
+    
+    Quiz.endQuiz(localStorage.getItem('quiz',localStorage.getItem('currentCourse')));
   });
 
   addQuizQuestion.addEventListener("click", () => {

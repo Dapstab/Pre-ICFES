@@ -19,7 +19,7 @@ module.exports = class CourseController {
   static getCourse = catchAsync(async (req, res, next) => {
     // Get course with quizzes (if (req.user.role === 'teacher'))
     const course = await Course.findById(req.params.courseId).populate({
-      path: "quizzes",
+      path: "quices",
       select: "-curso",
     });
 

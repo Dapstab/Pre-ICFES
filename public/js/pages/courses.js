@@ -5,10 +5,12 @@ export const Courses = () => {
         e.stopImmediatePropagation();
         localStorage.setItem('currentCourse', e.target.dataset.courseid);
     });
-    const joinCourse = document.querySelector('.join-course');
-    joinCourse.addEventListener('submit', async e => {
-        e.preventDefault();
-        const courseCode = document.getElementById('course-code').value;
-        await Course.joinCourse(courseCode);
-    });
+    if (courses.dataset.role === 'estudiante') {
+        const joinCourse = document.querySelector('.join-course');
+        joinCourse.addEventListener('submit', async e => {
+            e.preventDefault();
+            const courseCode = document.getElementById('course-code').value;
+            await Course.joinCourse(courseCode);
+        });
+    }
 }

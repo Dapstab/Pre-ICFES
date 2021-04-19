@@ -1,8 +1,10 @@
 extends ../dashboard
 block contentDashboard
     h1 Hello
-    each quiz in course.quices
-        ul.quizzes-container
-            li.quiz-item
-                a.quiz-link(href="quiz/view")= quiz.nombre
-    
+    if course.quices
+        each quiz in course.quices
+            ul.quizzes-container
+                li.quiz-item
+                    a.quiz-link(href=`quiz/view/${quiz.slug}`)= quiz.nombre
+    if user.rol === "profesor"
+        a.btn.btn-small(href="/quiz") Add Quiz
