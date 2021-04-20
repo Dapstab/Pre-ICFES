@@ -36342,7 +36342,7 @@ module.exports = {
   "_args": [
     [
       "elliptic@6.5.4",
-      "E:\\Desktop\\Prubas Icfes v.3\\Pre-ICFES"
+      "C:\\Users\\gordo\\Desktop\\VSCode\\Pre-ICFES"
     ]
   ],
   "_development": true,
@@ -36368,7 +36368,7 @@ module.exports = {
   ],
   "_resolved": "https://registry.npmjs.org/elliptic/-/elliptic-6.5.4.tgz",
   "_spec": "6.5.4",
-  "_where": "E:\\Desktop\\Prubas Icfes v.3\\Pre-ICFES",
+  "_where": "C:\\Users\\gordo\\Desktop\\VSCode\\Pre-ICFES",
   "author": {
     "name": "Fedor Indutny",
     "email": "fedor@indutny.com"
@@ -59008,7 +59008,62 @@ var editQuiz = function editQuiz() {
 };
 
 exports.editQuiz = editQuiz;
-},{"../axios/quiz":"axios/quiz.js"}],"pages/solveQuiz.js":[function(require,module,exports) {
+},{"../axios/quiz":"axios/quiz.js"}],"axios/grade.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Grades = void 0;
+
+var _axios = _interopRequireDefault(require("axios"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var Grades = function Grades() {
+  _classCallCheck(this, Grades);
+};
+
+exports.Grades = Grades;
+
+_defineProperty(Grades, "updateGrade", /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(quiz, nota, curso) {
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.next = 2;
+            return (0, _axios.default)({
+              method: 'POST',
+              url: 'http://127.0.0.1:3000/api/v1/grades',
+              data: {
+                quiz: quiz,
+                nota: nota,
+                curso: curso
+              }
+            });
+
+          case 2:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+
+  return function (_x, _x2, _x3) {
+    return _ref.apply(this, arguments);
+  };
+}());
+},{"axios":"../../node_modules/axios/index.js"}],"pages/solveQuiz.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -59017,6 +59072,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.solveQuiz = void 0;
 
 var _quiz = require("../axios/quiz");
+
+var _grade = require("../axios/grade");
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -59048,7 +59105,7 @@ var solveQuiz = /*#__PURE__*/function () {
 
               var grade = 5 * correct / quizquestions.length;
 
-              _quiz.Quiz.updateGrade(grade);
+              _grade.Grades.updateGrade(grade);
 
               localStorage.setItem("result", "".concat(correct, " / ").concat(quizquestions.length));
               window.setTimeout(function () {
@@ -59134,7 +59191,7 @@ export class SolveQuiz {
 
 
 exports.solveQuiz = solveQuiz;
-},{"../axios/quiz":"axios/quiz.js"}],"pages/viewQuiz.js":[function(require,module,exports) {
+},{"../axios/quiz":"axios/quiz.js","../axios/grade":"axios/grade.js"}],"pages/viewQuiz.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -59523,7 +59580,7 @@ if (document.URL.includes("/quiz/edit")) {
   (0, _editQuiz.editQuiz)();
 }
 
-if (document.URL.includes("/quiz/605fc7dd15e80735002afbd7")) {
+if (document.URL.includes("/quiz/607e094395de11144ce30c0d")) {
   /* SolveQuiz.getAnswers();
   SolveQuiz.sendAnswers(); */
   (0, _solveQuiz.solveQuiz)();
@@ -59564,7 +59621,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58755" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62110" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

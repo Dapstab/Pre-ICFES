@@ -42,12 +42,12 @@ if (document.URL.includes("/quiz/edit")) {
   editQuiz();
 }
 
-if (document.URL.includes("/quiz/605fc7dd15e80735002afbd7")) {
-  /* SolveQuiz.getAnswers();
-  SolveQuiz.sendAnswers(); */
+/* if (document.URL.includes("/quiz/607e094395de11144ce30c0d")) {
+  SolveQuiz.getAnswers();
+  SolveQuiz.sendAnswers();
   solveQuiz();
-}
-
+} */
+solveQuiz();
 if (document.URL.includes('/quiz/view')) {
   showResults();
 }

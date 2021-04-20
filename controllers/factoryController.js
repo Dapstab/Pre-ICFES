@@ -37,6 +37,7 @@ module.exports = class Factory {
 
   static createOne = function (Model) {
     return catchAsync(async (req, res, next) => {
+      console.log(req.body)
       const newDoc = await Model.create(req.body);
       res.status(201).json({
         status: "success",

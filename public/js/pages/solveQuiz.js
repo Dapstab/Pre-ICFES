@@ -1,4 +1,5 @@
 import { Quiz } from "../axios/quiz";
+import { Grades } from "../axios/grade";
 // import { timer, timeSeconds } from "../utils/timer";
 const questions = document.querySelector(".questions");
 const stopWatch = document.querySelector(".timer");
@@ -29,11 +30,9 @@ export const solveQuiz = async () => {
     );
     //localStorage.setItem('result', `${this.checkAnswers()} / ${this.quizquestions.length}`);
     const grade = (5 * correct) / quizquestions.length;
-    Quiz.updateGrade(grade);
-    localStorage.setItem("result", `${correct} / ${quizquestions.length}`);
-    window.setTimeout(() => {
-      location.assign("/quiz/view");
-    }, 1000);
+    const slug = document.URL.split('/').slice(-1)[0];
+    console.log(slug);
+    await Grades.updateGrade(grade, slug, localStorage.getItem('currentCourse'));
   }
 
   function sendAnswers() {

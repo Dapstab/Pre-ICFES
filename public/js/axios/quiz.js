@@ -33,7 +33,6 @@ export class Quiz {
       const res = await axios({
         method: 'PATCH',
         url: `http://127.0.0.1:3000/api/v1/courses/${courseId}/quiz/edit/${quizId}`,
-        // url: `http://127.0.0.1:3000/api/v1/quizzes/edit/${quizId}`,
         data: JSON.parse(localStorage.getItem('questions'))
       });
       if (res.data.status === "success") {
@@ -52,7 +51,7 @@ export class Quiz {
   static getQuiz = async function(id) {
     const res = await axios({
       method: 'GET',
-      url: `http://127.0.0.1:3000/api/v1/quiz/${id}`,
+      url: `http://127.0.0.1:3000/api/v1/quizzes/${id}`,
     })
     return res.data.doc;
   }

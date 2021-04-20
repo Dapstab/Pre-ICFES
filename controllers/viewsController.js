@@ -3,7 +3,7 @@ const Quiz = require("../models/quizModel");
 const User = require("../models/userModel");
 const asignaturas = require("../utils/data");
 const Course = require("../models/courseModel");
-const quizStatsModel = require('../models/quizStatsModel');
+const Grades = require("../models/gradeModel");
 module.exports = class ViewsController {
   static getHomePage = catchAsync(async (req, res, next) => {
     if (req.user) {
@@ -35,14 +35,13 @@ module.exports = class ViewsController {
   });
 
   static solveQuiz = catchAsync(async (req, res, next) => {
-    if (!req.body.solved) {
       const quiz = await Quiz.findById(req.params.quizId);
-      return res.status(200).render("quizzes/quiz", {
+      console.log(quiz._id)
+      res.status(200).render("quizzes/quiz", {
         title: "Quices",
         quiz,
       });
-    }
-    res.redirect("/quiz/view");
+    // res.redirect("/quiz/view");
   });
 
   static getQuestionForm = (req, res) => {
@@ -81,7 +80,7 @@ module.exports = class ViewsController {
   // };
   // Ir a la página del curso en particular 
   static getCourse = catchAsync(async (req, res, next) => {
-    const course = await Course.findById(req.params.courseId).populate({path: 'quices', select: 'nombre'});
+    const course = await Course.findOne({ slug: req.params.slug }).populate({path: 'quices', select: 'nombre slug'});
     res.status(200).render("courses/course", {
       title: course.nombre,
       course
@@ -91,7 +90,7 @@ module.exports = class ViewsController {
   
 
   static getCourses = catchAsync(async (req, res, next) => {
-    const user = await User.findById(req.user.id).populate({ path: 'cursos' }).populate({ path: 'cursosCreados'});
+    const user = await User.findById(req.user.id).populate({ path: 'cursos slug' }).populate({ path: 'cursosCreados slug'});
     res.status(200).render("courses/courses", {
       title: "Mis Cursos",
       courses: user.rol === 'estudiante' ? user.cursos : user.cursosCreados
@@ -100,7 +99,7 @@ module.exports = class ViewsController {
 
   // /:course/:quizId
   static getQuiz = catchAsync(async (req, res, next) => {
-    const quiz = await Quiz.findById(req.params.quizId);
+    const quiz = await Quiz.findOne({ slug: req.params.slug });
     res.status(200).render("courses/courses", {
       title: "Quiz",
       quiz
@@ -117,10 +116,13 @@ module.exports = class ViewsController {
 
   ///quiz/view/:quizId
   static viewQuiz = catchAsync(async (req, res, next) => {
-    // const quizStats = await quizStatsModel.findById(req.params.quizId);
+    const quizId = (await Quiz.findOne({ slug: req.params.qslug }))._id;
+    console.log(quizId);
+    const grades = await Grades.findById(quizId).sort({ nombreEstudiante: 1 });
+    console.log(grades);
     res.status(200).render("quizzes/viewQuiz", {
       title: "Resultados",
-      // quizStats
+      grades
     });
   });
 };

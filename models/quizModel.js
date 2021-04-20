@@ -58,6 +58,8 @@ const quizSchema = new mongoose.Schema(
   }
 );
 
+quizSchema.index({ nombre: 1, curso: 1}, { unique: true })
+
 quizSchema.pre("save", function (next) {
   this.slug = slugify(this.nombre, { lower: true });
   next();

@@ -15,7 +15,7 @@ block contentDashboard
             
             each course, i in courses 
                 li.course
-                    a.course-link(href=`course/${course._id}`, data-courseid=course._id)= course.nombre
+                    a.course-link(href=`course/${course.slug}`, data-courseid=course._id)= course.nombre
         
         
         
